@@ -1,8 +1,11 @@
 import React from 'react';
+import AuthForms from './authPage';
 
 function App () {
   return (
-    <>Let&apos;s go!</>
+    <div>
+      <AuthForms />
+    </div>
   );
 }
 
