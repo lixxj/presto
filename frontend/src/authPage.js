@@ -17,7 +17,7 @@ function authForms () {
     flexDirection: 'column',
     width: '25%',
     border: '1px solid lightGray',
-    borderRadius: '15px'
+    borderRadius: '20px'
   }
 
   const formStyle = {
@@ -38,8 +38,12 @@ function authForms () {
   }
 
   const switchForms = (event) => {
+    setEmail('')
+    setName('')
+    setPassword('')
+    setConfirmPassword('')
     event.preventDefault()
-    toggleState(!loginState);
+    toggleState(!loginState)
   }
 
   return (
@@ -49,18 +53,18 @@ function authForms () {
           <Form style={formStyle}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" onChange={e => setEmail(e.target.value)}/>
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+            <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
           </Form.Group>
 
           <Button variant="primary" type="submit" onClick={test}>
             Submit
           </Button>
-          <Button variant="primary" onClick={switchForms} style={ { marginLeft: '1rem' } }>
+          <Button variant="secondary" onClick={switchForms} style={ { marginLeft: '1rem' } }>
             Register
           </Button>
         </Form>
@@ -69,31 +73,31 @@ function authForms () {
           <Form style={formStyle}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="email" placeholder="Enter your name" onChange={e => setName(e.target.value)}/>
+            <Form.Control type="email" placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" onChange={e => setEmail(e.target.value)}/>
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+            <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
             <Form.Text className="text-muted">
               Please choose a strong password
             </Form.Text>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-3" controlId="formConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="Re-enter password" onChange={e => setConfirmPassword(e.target.value)}/>
+            <Form.Control type="password" placeholder="Re-enter password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
           </Form.Group>
 
           <Button variant="primary" type="submit">
             Submit
           </Button>
-          <Button variant="primary" type="submit" style={ { marginLeft: '1rem' } }>
+          <Button variant="secondary" onClick={switchForms} style={ { marginLeft: '1rem' } }>
             Back to Login
           </Button>
         </Form>
