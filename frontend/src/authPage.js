@@ -62,7 +62,7 @@ function authForms () {
           </Form.Group>
 
           <Button variant="primary" type="submit" onClick={test}>
-            Submit
+            Login
           </Button>
           <Button variant="secondary" onClick={switchForms} style={ { marginLeft: '1rem' } }>
             Register
@@ -95,7 +95,7 @@ function authForms () {
           </Form.Group>
 
           <Button variant="primary" type="submit">
-            Submit
+            Register
           </Button>
           <Button variant="secondary" onClick={switchForms} style={ { marginLeft: '1rem' } }>
             Back to Login
