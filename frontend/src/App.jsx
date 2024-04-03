@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import ThemeToggle from './ThemeToggle';
 
@@ -21,7 +20,7 @@ function App () {
   return (
     <>
       <ThemeToggle onToggle={toggleDarkMode} isDarkMode={darkMode} />
-      <div>Let's go!</div>
+      <div>Test</div>
     </>
   );
 }
