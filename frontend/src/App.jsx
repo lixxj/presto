@@ -33,9 +33,9 @@ function App () {
           {/* TODO: Route for AuthForms, move this to login/register maybe?  */}
           <Route path="/" element={<div style={authPageStyle}><AuthForms /></div>} />
 
-          <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} />} />
-          <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} pet="dog" food="pasta" />} />
-          <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
+          <Route path="/dashboard" element={<Dashboard style={authPageStyle} token={token} setTokenFunction={setTokenAbstract} />} />
+          <Route path="/register" element={<div style={authPageStyle}><Register token={token} setTokenFunction={setTokenAbstract} pet="dog" food="pasta" /></div>} />
+          <Route path="/login" element={<div style={authPageStyle}><Login token={token} setTokenFunction={setTokenAbstract} /></div>} />
 
           {/* More routes... */}
         </Routes>

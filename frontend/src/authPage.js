@@ -25,6 +25,7 @@ function authForms () {
     width: '80%',
   }
 
+  // Remove later
   const test = () => {
     if (loginState) {
       console.log(email)
@@ -73,7 +74,7 @@ function authForms () {
           <Form style={formStyle}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="email" placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)}/>
+            <Form.Control placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
