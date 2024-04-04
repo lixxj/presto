@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Logout ({ token, setToken }) {
+  const navigate = useNavigate();
+
   const logout = async () => {
     try {
       await axios.post('http://localhost:5005/admin/auth/logout', {}, {
@@ -10,6 +13,7 @@ function Logout ({ token, setToken }) {
         }
       });
       setToken(null);
+      navigate('/login')
     } catch (err) {
       console.log(err);
       alert(err.response.data.error);

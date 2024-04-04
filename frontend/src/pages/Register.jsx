@@ -15,17 +15,25 @@ function Register ({ token, setTokenFunction }) {
     return <Navigate to="/dashboard" />
   }
 
-  const register = async () => {
-    try {
-      const response = await axios.post('http://localhost:5005/admin/auth/register', {
-        email,
-        password,
-        name
-      });
-      setTokenFunction(response.data.token);
-      navigate('/dashboard');
-    } catch (err) {
-      alert(err.response.data.error);
+  const register = async (event) => {
+    if (password !== confirmPassword) {
+      alert('Passwords do not match')
+      setPassword('')
+      setConfirmPassword('')
+      event.preventDefault()
+    } else {
+      try {
+        const response = await axios.post('http://localhost:5005/admin/auth/register', {
+          email,
+          password,
+          name
+        });
+        setTokenFunction(response.data.token);
+        navigate('/dashboard');
+      } catch (err) {
+        console.log('error')
+        alert(err.response.data.error);
+      }
     }
   }
 
@@ -50,7 +58,7 @@ function Register ({ token, setTokenFunction }) {
 
   return (
     <div style={borderStyle}>
-      <Form style={formStyle}>
+      <Form style={formStyle} onSubmit={register}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)}/>
@@ -74,7 +82,7 @@ function Register ({ token, setTokenFunction }) {
             <Form.Control type="password" placeholder="Re-enter password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
           </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={register}>
+          <Button variant="primary" type="submit">
             Register
           </Button>
           <Button variant="secondary" onClick={displayLoginForm} style={ { marginLeft: '1rem' } }>

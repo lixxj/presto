@@ -47,7 +47,7 @@ function Login ({ token, setTokenFunction }) {
 
   return (
     <div style={borderStyle}>
-      <Form style={formStyle}>
+      <Form style={formStyle} onSubmit={login}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
@@ -58,7 +58,7 @@ function Login ({ token, setTokenFunction }) {
           <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
         </Form.Group>
 
-        <Button variant="primary" type="submit" onClick={login}>
+        <Button variant="primary" type="submit">
           Login
         </Button>
         <Button variant="secondary" onClick={displayRegisterForm} style={ { marginLeft: '1rem' } }>
