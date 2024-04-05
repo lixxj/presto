@@ -10,7 +10,7 @@ import Register from './pages/Register';
 import './styles.css';
 
 function App () {
-  const lsToken = localStorage.getItem('token') || null; // Simplified token retrieval
+  const lsToken = localStorage.getItem('token') || null;
   const [token, setToken] = React.useState(lsToken);
 
   const setTokenAbstract = (newToken) => {
@@ -49,7 +49,7 @@ function App () {
               {darkMode ? 'Light Mode' : 'Dark Mode'}
             </Button>
             <nav>
-              <Link to="/dashboard">DashboardTEST</Link> |{''}
+              <Link to="/dashboard">Dashboard</Link> |{''}
               <Link to="/register">Register</Link> |{''}
               <Link to="/login">Login</Link>
             </nav>
