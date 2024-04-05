@@ -13,9 +13,12 @@ function Dashboard ({ token, setTokenFunction }) {
         Authorization: token,
       }
     }).then((response) => {
-      setStore(response.data.store)
+      setStore(response.data.store);
+    }).catch(error => {
+      console.error('Error fetching data: ', error);
+      // Handle error appropriately in your UI
     });
-  }, []);
+  }, [token]);
 
   console.log(store);
 
