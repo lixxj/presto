@@ -16,11 +16,11 @@ function Register ({ token, setTokenFunction }) {
   }
 
   const register = async (event) => {
+    event.preventDefault(); // It's a good practice to have this at the beginning
     if (password !== confirmPassword) {
-      alert('Passwords do not match')
-      setPassword('')
-      setConfirmPassword('')
-      event.preventDefault()
+      alert('Passwords do not match');
+      setPassword('');
+      setConfirmPassword('');
     } else {
       try {
         const response = await axios.post('http://localhost:5005/admin/auth/register', {
@@ -31,33 +31,42 @@ function Register ({ token, setTokenFunction }) {
         setTokenFunction(response.data.token);
         navigate('/dashboard');
       } catch (err) {
-        console.log('error')
-        alert(err.response.data.error);
+        console.error('error:', err); // It's better to use console.error for errors
+        alert(err.response?.data?.error || 'An unexpected error occurred');
       }
     }
   }
 
-  const displayLoginForm = () => {
-    navigate('/login');
-  }
-
+  // Responsive styling
   const borderStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center', // Changed from 'space-between' for better centering
     flexDirection: 'column',
-    width: '25%',
+    width: '60%',
     border: '1px solid lightGray',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    padding: '20px', // Added padding for better spacing
+    margin: 'auto', // Center the form on the page
+    minWidth: '350px',
   }
 
   const formStyle = {
-    margin: '10% 0',
-    width: '80%',
+    width: '100%', // Use 100% width within the container
   }
+
+  // Media query for mobile responsiveness
+  const mobileStyle = `@media (max-width: 768px) {
+    div {
+      width: 80% !important; // Increase width on small screens
+    }
+  }`;
 
   return (
     <div style={borderStyle}>
+      <style>
+        {mobileStyle}
+      </style>
       <Form style={formStyle} onSubmit={register}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
@@ -71,22 +80,16 @@ function Register ({ token, setTokenFunction }) {
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
-            <Form.Text className="text-muted">
-              Please choose a strong password
-            </Form.Text>
+            <Form.Control type="password" placeholder="Please choose a strong password" value={password} onChange={e => setPassword(e.target.value)}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control type="password" placeholder="Re-enter password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
           </Form.Group>
-
+          <hr />
           <Button variant="primary" type="submit">
             Register
-          </Button>
-          <Button variant="secondary" onClick={displayLoginForm} style={ { marginLeft: '1rem' } }>
-            Back to Login
           </Button>
         </Form>
     </div>

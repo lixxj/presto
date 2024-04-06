@@ -1,67 +1,69 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { createTheme, ThemeProvider, CssBaseline, Button } from '@mui/material';
-
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
-
-// ! we can not use .css files !
-import './styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 
 function App () {
   const lsToken = localStorage.getItem('token') || null;
   const [token, setToken] = React.useState(lsToken);
 
+  // Retrieve dark mode preference from localStorage or default to false
+  const [darkMode, setDarkMode] = React.useState(() => {
+    const lsDarkMode = localStorage.getItem('darkMode');
+    return lsDarkMode === 'true'; // Convert string to boolean
+  });
+
   const setTokenAbstract = (newToken) => {
     setToken(newToken);
     localStorage.setItem('token', newToken);
-  }
-
-  const [darkMode, setDarkMode] = React.useState(false);
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: darkMode ? 'dark' : 'light',
-        },
-      }),
-    [darkMode]
-  );
-
-  const toggleDarkMode = () => setDarkMode(!darkMode);
-
-  const authPageStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-    width: '100%'
   };
 
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem('darkMode', newDarkMode); // Save preference
+  };
+
+  useEffect(() => {
+    // Apply or remove dark mode class on body
+    document.body.className = darkMode ? 'bg-dark text-white' : 'bg-light text-dark';
+  }, [darkMode]); // Effect runs when darkMode state changes
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <div className={'App min-vh-100'}>
       <BrowserRouter>
-        <div>
-            <Button onClick={toggleDarkMode} color="inherit">
-              {darkMode ? 'Light Mode' : 'Dark Mode'}
-            </Button>
-            <nav>
-              <Link to="/dashboard">Dashboard</Link> |{''}
-              <Link to="/register">Register</Link> |{''}
-              <Link to="/login">Login</Link>
-            </nav>
-            <Routes>
-              <Route path="/dashboard" element={<Dashboard style={authPageStyle} token={token} setTokenFunction={setTokenAbstract} />} />
-              <Route path="/register" element={<div style={authPageStyle}><Register token={token} setTokenFunction={setTokenAbstract} /></div>} />
-              <Route path="/login" element={<div style={authPageStyle}><Login token={token} setTokenFunction={setTokenAbstract} /></div>} />
-              {/* More routes... */}
+        <Navbar collapseOnSelect expand="lg" bg={darkMode ? 'dark' : 'light'} variant={darkMode ? 'dark' : 'light'}>
+          <Container>
+            <Navbar.Brand as={NavLink} to="/dashboard">🪄Presto</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+                <Nav.Link as={NavLink} to="/register">Register</Nav.Link>
+                <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+              </Nav>
+              <Nav>
+                <button onClick={toggleDarkMode} className={`btn ${darkMode ? 'btn-light' : 'btn-dark'}`}>
+                  {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        <Container className="mt-3">
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} />} />
+            <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
+            <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
+            {/* More routes as needed... */}
           </Routes>
-          </div>
+        </Container>
       </BrowserRouter>
-    </ThemeProvider>
+    </div>
   );
 }
 

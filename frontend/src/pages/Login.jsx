@@ -13,7 +13,8 @@ function Login ({ token, setTokenFunction }) {
     return <Navigate to="/dashboard" />
   }
 
-  const login = async () => {
+  const login = async (event) => {
+    event.preventDefault(); // Prevent default form submission
     try {
       const response = await axios.post('http://localhost:5005/admin/auth/login', {
         email,
@@ -22,47 +23,53 @@ function Login ({ token, setTokenFunction }) {
       setTokenFunction(response.data.token);
       navigate('/dashboard');
     } catch (err) {
-      alert(err.response.data.error);
+      console.error('Error:', err);
+      alert(err.response?.data?.error || 'An unexpected error occurred');
     }
   }
 
-  const displayRegisterForm = () => {
-    navigate('/register');
-  }
-
+  // Styles including media query for responsiveness
   const borderStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center', // Centering content for better alignment
     flexDirection: 'column',
-    width: '25%',
+    width: '60%',
     border: '1px solid lightGray',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    padding: '20px',
+    margin: 'auto',
+    minWidth: '350px',
   }
 
   const formStyle = {
-    margin: '10% 0',
-    width: '80%',
+    width: '100%',
   }
+
+  const mobileStyle = `@media (max-width: 768px) {
+    div {
+      width: 80% !important; // Adjust width for small screens
+    }
+  }`;
 
   return (
     <div style={borderStyle}>
+      <style>
+        {mobileStyle}
+      </style>
       <Form style={formStyle} onSubmit={login}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
+          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+          <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
         </Form.Group>
-
+        <hr />
         <Button variant="primary" type="submit">
           Login
-        </Button>
-        <Button variant="secondary" onClick={displayRegisterForm} style={ { marginLeft: '1rem' } }>
-          Register
         </Button>
       </Form>
     </div>
