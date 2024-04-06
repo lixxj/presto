@@ -12,7 +12,8 @@
 
 ## 0. Change Log
 
-N/A
+- 01/04 Fix movable element spec & video element's url option & Fix backend swaggerdoc 
+- 06/04 Re-weighted feature set 2/3/4 to be more even as per week 8 lecture
 
 ## 1. Before you start
 
@@ -89,7 +90,7 @@ This feature set focuses solely on the ability to register, login, and logout. I
  * This logout button, when clicked, returns you to the login screen.
 
 
-### 2.2. Feature Set 2. Setting up slides (10%)
+### 2.2. Feature Set 2. Setting up slides (13%)
 
 #### 2.2.1. New presentation on Dashboard
 
@@ -136,7 +137,7 @@ This feature set focuses solely on the ability to register, login, and logout. I
 
 * When viewing a particular slide, the slide number should be visible within the slide, position at the **bottom left**. The font-size should be `1em` of any colour, and it should be visible only within a `50px` by `50px` area. When you only have one slide left, this number will just be "1".
 
-### 2.3. Feature Set 3. Putting Elements on a slide (15%)
+### 2.3. Feature Set 3. Putting Elements on a slide (14%)
 
 * Any time when users are prompted for the "size" of an element below, size is always represented in percentage(%) as a number between 0 and 100 where:
   * For width, 100 represents the full width of the deck, 50 represents half the width, etc etc
@@ -171,7 +172,7 @@ This feature set focuses solely on the ability to register, login, and logout. I
 * Somewhere on the slideshow edit screen, for each slide, there should be an action that is clearly described as adding a video to the current slide. This action can be immediately visible in a list of tools, or can be hidden away by some kind of collapsable panel.
   * When this action is clicked, a modal should appear and accept inputs from users for 
     1) The size of the video area
-    2) Either the URL of the youtube video to display 
+    2) The URL of the youtube video to display 
     3) Whether or not the video should auto-play
   
 #### 2.3.4. Putting CODE on the slide
@@ -191,7 +192,7 @@ This feature set focuses solely on the ability to register, login, and logout. I
 * For all of `2.3.1`, `2.3.2`, `2.3.3`, `2.3.4`, and `2.3.5`, change it so that:
   * When you double click on a block, it no longer displays the position as an option to edit the location of the block
   * When you click on a block once, each of the 4 corners should now have a small `5px` x `5px` solid box on it, whereby:
-    * If the user clicks and drags the corners, they can increase or decrease the size of the box (maintaining aspect ratio).
+    * If the user clicks and drags the box, they can change the position of the box (maintaining aspect ratio).
     * The block cannot have any of its corners extend beyond the edges of the slide.
 
 #### 2.3.6. 🙉🙉🙉 Making elements resizable
@@ -203,7 +204,7 @@ This feature set focuses solely on the ability to register, login, and logout. I
     * The block cannot be resized smaller than `1%` of width or height.
     * The block cannot have any of its corners extend beyond the edges of the slide.
 
-### 2.4. Feature Set 4. Further Features (15%)
+### 2.4. Feature Set 4. Further Features (13%)
 
 #### 2.4.1. Font adjustment
 
