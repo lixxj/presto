@@ -1,75 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import LogoutButton from './components/LogoutButton';
+import { Container } from 'react-bootstrap';
 import FooterComponent from './components/FooterComponent';
+import NavigationBar from './components/navigationBar';
+import useDarkMode from './hooks/useDarkMode';
 
 function App () {
   const lsToken = localStorage.getItem('token') || null;
   const [token, setToken] = useState(lsToken);
 
-  // Retrieve dark mode preference from localStorage or default to false
-  const [darkMode, setDarkMode] = useState(() => {
-    const lsDarkMode = localStorage.getItem('darkMode');
-    return lsDarkMode === 'true'; // Convert string to boolean
-  });
+  const [darkMode, toggleDarkMode] = useDarkMode();
 
   const setTokenAbstract = (newToken) => {
     if (newToken === null) {
-      localStorage.removeItem('token'); // Ensure the token is removed from localStorage when logging out
-      setToken(null); // Update state with null when logging out
+      localStorage.removeItem('token');
+      setToken(null);
     } else {
       localStorage.setItem('token', newToken);
-      setToken(newToken); // Update state with the new token
+      setToken(newToken);
     }
   };
-
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem('darkMode', newDarkMode.toString()); // Ensure to save it as a string
-  };
-
-  useEffect(() => {
-    document.body.className = darkMode ? 'bg-dark text-white' : 'bg-light text-dark';
-  }, [darkMode]);
 
   return (
     <div className={'App d-flex flex-column min-vh-100'}>
       <BrowserRouter>
-        <Navbar collapseOnSelect expand="lg" bg={darkMode ? 'dark' : 'light'} variant={darkMode ? 'dark' : 'light'}>
-          <Container>
-            <Navbar.Brand as={NavLink} to="/dashboard">🪄Presto</Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto">
-                {token && <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>}
-                {!token && <Nav.Link as={NavLink} to="/register">Register</Nav.Link>}
-                {!token && <Nav.Link as={NavLink} to="/login">Login</Nav.Link>}
-              </Nav>
-
-              {token && (
-                <Nav>
-                  <LogoutButton token={token} setToken={setTokenAbstract} />
-                </Nav>
-              )}
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
+        <NavigationBar token={token} darkMode={darkMode} toggleDarkMode={toggleDarkMode} setTokenAbstract={setTokenAbstract} />
         <Container className="mt-3 flex-grow-1">
           <Routes>
             <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
-            {/* Additional routes as needed */}
+            {/* Additional routes */}
           </Routes>
         </Container>
-
         <FooterComponent darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       </BrowserRouter>
     </div>
