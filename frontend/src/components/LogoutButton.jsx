@@ -12,16 +12,28 @@ function Logout ({ token, setToken }) {
           Authorization: token,
         }
       });
-      setToken(null);
-      navigate('/login')
     } catch (err) {
-      console.log(err);
-      alert(err.response.data.error);
+      console.error('Logout error:', err.response?.data?.error || err.message);
     }
+    setToken(null);
+    navigate('/login');
+  };
+
+  const customButtonStyle = {
+    borderColor: 'red',
+    borderWidth: '3px',
+    borderStyle: 'inset',
+    width: '75px',
+    height: '35px',
+    borderRadius: '18px',
+    fontSize: '16px',
+    lineHeight: '0.3'
   };
 
   return (
-    <button onClick={logout}>Logout</button>
+    <button onClick={logout} className="btn btn-outline-danger nav-link" style={customButtonStyle}>
+      Logout
+    </button>
   );
 }
 

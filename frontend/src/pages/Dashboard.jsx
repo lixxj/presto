@@ -2,8 +2,6 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-import LogoutButton from '../components/LogoutButton';
-
 function Dashboard ({ token, setTokenFunction }) {
   const [store, setStore] = React.useState({});
 
@@ -26,8 +24,7 @@ function Dashboard ({ token, setTokenFunction }) {
     return <Navigate to="/login" />
   }
   return <>
-    <LogoutButton token={token} setToken={setTokenFunction} /><br />
-    dashboard
+    dashboard goes here...
   </>;
 }
 

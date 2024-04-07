@@ -58,7 +58,7 @@ function Register ({ token, setTokenFunction }) {
   // Media query for mobile responsiveness
   const mobileStyle = `@media (max-width: 768px) {
     div {
-      width: 80% !important; // Increase width on small screens
+      width: 90% !important; // Increase width on small screens
     }
   }`;
 
@@ -68,7 +68,7 @@ function Register ({ token, setTokenFunction }) {
         {mobileStyle}
       </style>
       <Form style={formStyle} onSubmit={register}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label>Name</Form.Label>
             <Form.Control placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)}/>
           </Form.Group>

@@ -48,7 +48,7 @@ function Login ({ token, setTokenFunction }) {
 
   const mobileStyle = `@media (max-width: 768px) {
     div {
-      width: 80% !important; // Adjust width for small screens
+      width: 90% !important; // Adjust width for small screens
     }
   }`;
 
