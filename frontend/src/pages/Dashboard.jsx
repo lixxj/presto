@@ -21,9 +21,30 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
     }
   }, [token]);
 
+  // Sends all the presentations to the backend
+  // Maybe there is better way to do this?
+  const setBackend = async (presentation) => {
+    console.log('sending presentation to backend')
+    try {
+      await axios.put('http://localhost:5005/store', {
+        store: {
+          presentation,
+        }
+      }, {
+        headers: {
+          Authorization: token,
+        }
+      });
+    } catch (err) {
+      console.error('Error:', err);
+      alert(err.response?.data?.error || 'An unexpected error occurred');
+    }
+  }
+
   const addPresentation = (newPresentation) => {
     // This could be enhanced to post the new presentation to the backend
     setPresentations([...presentations, newPresentation]);
+    setBackend([...presentations, newPresentation]);
   };
 
   if (!token) {
