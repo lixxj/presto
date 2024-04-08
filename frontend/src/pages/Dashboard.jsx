@@ -21,10 +21,8 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
     }
   }, [token]);
 
-  // Sends all the presentations to the backend
-  // Maybe there is better way to do this?
   const setBackend = async (presentation) => {
-    console.log('sending presentation to backend')
+    console.log('sending presentation to backend');
     try {
       await axios.put('http://localhost:5005/store', {
         store: {
@@ -39,10 +37,9 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
       console.error('Error:', err);
       alert(err.response?.data?.error || 'An unexpected error occurred');
     }
-  }
+  };
 
   const addPresentation = (newPresentation) => {
-    // This could be enhanced to post the new presentation to the backend
     setPresentations([...presentations, newPresentation]);
     setBackend([...presentations, newPresentation]);
   };
@@ -53,14 +50,18 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div style={{ flexGrow: 1 }}>
-        {/* Loop through presentations and render a card for each */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+        gap: '20px', // Adjust spacing between cards
+        padding: '20px', // Add some padding around the grid
+        flexGrow: 1,
+      }}>
         {presentations.map((presentation) => (
           <PresentationCard key={presentation.id} presentation={presentation} darkMode={darkMode} />
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', marginRight: '-20px' }}>
-        {/* Pass addPresentation to allow NewPresentationButton to add a new presentation */}
         <NewPresentationButton darkMode={darkMode} addPresentation={addPresentation} />
       </div>
     </div>
