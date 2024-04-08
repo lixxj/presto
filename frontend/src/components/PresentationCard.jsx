@@ -1,4 +1,3 @@
-// PresentationCard.js
 import React from 'react';
 
 const PresentationCard = ({ presentation, darkMode }) => {

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import NewPresentationButton from '../components/NewPresentationButton';
-import PresentationCard from '../components/PresentationCard'; // Make sure to create this component
+import PresentationCard from '../components/PresentationCard';
 
 function Dashboard ({ token, setTokenFunction, darkMode }) {
   const [presentations, setPresentations] = useState([]); // State to hold presentations
 
   useEffect(() => {
     if (token) {
-      axios.get('http://localhost:5005/presentations', { // Adjusted endpoint for clarity
+      axios.get('http://localhost:5005/presentations', {
         headers: {
           Authorization: token,
         },

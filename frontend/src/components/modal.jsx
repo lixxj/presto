@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 function ModalComponent ({ show, onHide, addPresentation, darkMode }) {
   const [presentationName, setPresentationName] = useState('');
 
-  // Styles are defined inside the component to switch based on darkMode state.
   const darkModeStyles = {
     background: '#2c3e50',
     color: '#ecf0f1',
