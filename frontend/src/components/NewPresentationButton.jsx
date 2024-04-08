@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ModalComponent from './modal';
 
-function NewPresentation ({ darkMode, addPresentation }) {
+function NewPresentationButton ({ darkMode, addPresentation }) {
   const [modalShow, setModalShow] = useState(false);
 
   // Directly pass the addPresentation to the ModalComponent.
@@ -43,4 +43,4 @@ function NewPresentation ({ darkMode, addPresentation }) {
   );
 }
 
-export default NewPresentation;
+export default NewPresentationButton;
