@@ -28,11 +28,10 @@ function Login ({ token, setTokenFunction }) {
     }
   }
 
-  // Styles including media query for responsiveness
   const borderStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center', // Centering content for better alignment
+    justifyContent: 'center',
     flexDirection: 'column',
     width: '60%',
     border: '1px solid lightGray',

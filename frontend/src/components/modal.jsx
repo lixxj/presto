@@ -37,21 +37,21 @@ function ModalComponent ({ show, onHide, addPresentation, darkMode }) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
-  // Handle the creation logic for a new presentation.
+  // creation logic for a new presentation.
   const handleCreate = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior.
+    e.preventDefault(); // Prevent the default form submission behavior
     if (presentationName.trim()) {
-      // Construct a new presentation object.
+      // new presentation object
       const newPresentation = {
         name: presentationName,
-        thumbnail: '', // Placeholder or generate a thumbnail if applicable.
-        description: '', // Default to empty or provide a way to input description.
-        slides: [{ content: '' }], // Default single empty slide.
+        thumbnail: '',
+        description: '',
+        slides: [{ content: '' }],
       };
 
-      addPresentation(newPresentation); // Use the addPresentation function passed as a prop.
-      setPresentationName(''); // Clear the input field after successful addition.
-      onHide(); // Hide the modal after creating a new presentation.
+      addPresentation(newPresentation);
+      setPresentationName(''); // Clear the input field after successful addition
+      onHide(); // Hide the modal after creating a new presentation
     }
   };
 

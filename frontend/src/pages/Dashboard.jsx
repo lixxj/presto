@@ -14,7 +14,7 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
           Authorization: token,
         },
       }).then((response) => {
-        // Directly accessing the 'presentations' within the 'store' object
+        // accessing the 'presentations' within the 'store' object
         const presentations = response.data.store.store?.presentations || [];
         console.log('Fetched presentations:', presentations);
         setPresentations(presentations);
@@ -25,7 +25,7 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
   }, [token]);
 
   const addPresentation = async (newPresentation) => {
-    // Create a copy of the current presentations state to modify
+    // Create a copy of the current presentations state
     const updatedPresentations = [...presentations, newPresentation];
 
     try {
@@ -40,7 +40,7 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
         },
       });
 
-      // If the update is successful, update the local state to reflect the new list of presentations
+      // update the local state upon successful update
       setPresentations(updatedPresentations);
     } catch (error) {
       console.error('Error adding new presentation: ', error);
