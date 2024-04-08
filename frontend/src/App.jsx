@@ -31,7 +31,7 @@ function App () {
         <NavigationBar token={token} darkMode={darkMode} toggleDarkMode={toggleDarkMode} setTokenAbstract={setTokenAbstract} />
         <Container className="mt-3 flex-grow-1">
           <Routes>
-            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} />} />
+            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} />} />
             <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
             {/* Additional routes */}

@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Modal from './modal';
+import ModalComponent from './modal';
 
-function Newpresentation ({ darkMode }) {
-  const [modalShow, setModalShow] = React.useState(false);
-  const [presentationName, setPresentationName] = React.useState('');
+function NewPresentationButton ({ darkMode, addPresentation }) {
+  const [modalShow, setModalShow] = useState(false);
 
-  const createPresentation = () => {
-    setModalShow(false);
-    console.log(presentationName);
-  }
+  // Directly pass the addPresentation to the ModalComponent.
+  // The ModalComponent should then call this method with the new presentation's details.
+  const handleHide = () => setModalShow(false);
 
   const customButtonStyle = {
     borderColor: 'red',
@@ -22,27 +20,27 @@ function Newpresentation ({ darkMode }) {
     lineHeight: '0.3',
     marginRight: '10px',
     marginBottom: '10px',
-  }
+  };
 
   return (
     <>
       <Button
         variant="primary"
         onClick={() => setModalShow(true)}
-        className="btn btn-outline-danger nav-link"
         style={customButtonStyle}
+        className="btn btn-outline-danger nav-link"
       >
-        New presentation
+        New Presentation
       </Button>
 
-      <Modal
+      <ModalComponent
         show={modalShow}
-        onHide={createPresentation}
-        setPresentationName={setPresentationName}
-        darkMode={darkMode} // Pass darkMode as a prop to ModalComponent
+        onHide={handleHide}
+        addPresentation={addPresentation} // Passed directly to ModalComponent
+        darkMode={darkMode}
       />
     </>
   );
 }
 
-export default Newpresentation;
+export default NewPresentationButton;

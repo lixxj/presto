@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function ModalComponent (props) {
+function ModalComponent ({ show, onHide, addPresentation, darkMode }) {
+  const [presentationName, setPresentationName] = useState('');
+
   const darkModeStyles = {
     background: '#2c3e50',
     color: '#ecf0f1',
@@ -13,7 +15,7 @@ function ModalComponent (props) {
     color: '#2c3e50',
   };
 
-  const modalStyle = props.darkMode ? darkModeStyles : lightModeStyles;
+  const modalStyle = darkMode ? darkModeStyles : lightModeStyles;
 
   const inputStyle = {
     ...modalStyle,
@@ -35,20 +37,45 @@ function ModalComponent (props) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
+  // Handle the creation logic for a new presentation.
+  const handleCreate = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior.
+    if (presentationName.trim()) {
+      // Construct a new presentation object.
+      const newPresentation = {
+        name: presentationName,
+        thumbnail: '', // Placeholder or generate a thumbnail if applicable.
+        description: '', // Default to empty or provide a way to input description.
+        slides: [{ content: '' }], // Default single empty slide.
+      };
+
+      addPresentation(newPresentation); // Use the addPresentation function passed as a prop.
+      setPresentationName(''); // Clear the input field after successful addition.
+      onHide(); // Hide the modal after creating a new presentation.
+    }
+  };
+
   return (
-    <Modal {...props} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Header closeButton style={modalStyle}>
-        <Modal.Title id="contained-modal-title-vcenter" style={modalStyle}>
-          New Presentation
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={modalStyle}>
-        <h5>Enter a name for your presentation:</h5>
-        <input style={inputStyle} onChange={e => props.setPresentationName(e.target.value)} />
-      </Modal.Body>
-      <Modal.Footer style={modalStyle}>
-        <Button onClick={props.onHide} style={buttonStyle}>Create</Button>
-      </Modal.Footer>
+    <Modal show={show} onHide={onHide} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
+      <form onSubmit={handleCreate}>
+        <Modal.Header closeButton style={modalStyle}>
+          <Modal.Title id="contained-modal-title-vcenter" style={modalStyle}>
+            New Presentation
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={modalStyle}>
+          <h5>Enter a name for your presentation:</h5>
+          <input
+            style={inputStyle}
+            value={presentationName}
+            onChange={(e) => setPresentationName(e.target.value)}
+            type="text"
+          />
+        </Modal.Body>
+        <Modal.Footer style={modalStyle}>
+          <Button type="submit" style={buttonStyle}>Create</Button>
+        </Modal.Footer>
+      </form>
     </Modal>
   );
 }
