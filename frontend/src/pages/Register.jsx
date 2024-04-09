@@ -16,7 +16,7 @@ function Register ({ token, setTokenFunction }) {
   }
 
   const register = async (event) => {
-    event.preventDefault(); // It's a good practice to have this at the beginning
+    event.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       setPassword('');
@@ -31,7 +31,7 @@ function Register ({ token, setTokenFunction }) {
         setTokenFunction(response.data.token);
         navigate('/dashboard');
       } catch (err) {
-        console.error('error:', err); // It's better to use console.error for errors
+        console.error('error:', err);
         alert(err.response?.data?.error || 'An unexpected error occurred');
       }
     }
@@ -41,18 +41,18 @@ function Register ({ token, setTokenFunction }) {
   const borderStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center', // Changed from 'space-between' for better centering
+    justifyContent: 'center',
     flexDirection: 'column',
     width: '60%',
     border: '1px solid lightGray',
     borderRadius: '20px',
-    padding: '20px', // Added padding for better spacing
-    margin: 'auto', // Center the form on the page
+    padding: '20px',
+    margin: 'auto',
     minWidth: '350px',
   }
 
   const formStyle = {
-    width: '100%', // Use 100% width within the container
+    width: '100%',
   }
 
   // Media query for mobile responsiveness
