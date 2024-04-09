@@ -16,7 +16,7 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
         },
       }).then((response) => {
         // accessing the 'presentations' within the 'store' object
-        const presentations = response.data.store.store?.presentations || [];
+        const presentations = response.data.store?.presentations || [];
         console.log('Fetched presentations:', presentations);
         setPresentations(presentations);
       }).catch((error) => {
