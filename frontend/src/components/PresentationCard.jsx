@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PresentationCard = ({ presentation, darkMode, onClick }) => {
   const { id, name, description, slides, thumbnail } = presentation;
+  const navigate = useNavigate();
 
   const cardStyle = {
     backgroundColor: darkMode ? '#333' : '#FFF',
@@ -49,9 +51,8 @@ const PresentationCard = ({ presentation, darkMode, onClick }) => {
   };
 
   const handleClick = () => {
-    console.log(`Presentation ${id} clicked!`);
-    // Implement navigation or modal opening logic here
-    // navigate(`/presentation/${id}`); or setOpenModal(true);
+    // console.log(`Presentation ${id} clicked!`);
+    navigate(`/presentation/${id}`);
   };
 
   return (
