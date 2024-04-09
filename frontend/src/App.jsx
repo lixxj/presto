@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -31,10 +31,12 @@ function App () {
         <NavigationBar token={token} darkMode={darkMode} toggleDarkMode={toggleDarkMode} setTokenAbstract={setTokenAbstract} />
         <Container className="mt-3 flex-grow-1">
           <Routes>
+            {/* Default route based on token status */}
+            <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
             <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} />} />
             <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
-            {/* Additional routes */}
+            {/* More routes */}
           </Routes>
         </Container>
         <FooterComponent darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
