@@ -42,6 +42,8 @@ function EditPresentation ({ token, darkMode }) {
     fetchPresentations();
   }, [id, navigate, token]);
 
+  // Helper function to update database given an array 
+  // of presentations
   const updateDatabase = (allPresentations) => {
     try {
       axios.put('http://localhost:5005/store', {
@@ -85,7 +87,6 @@ function EditPresentation ({ token, darkMode }) {
         const allPresentations = response.data.store?.presentations || [];
         const specificPresentation = allPresentations.find(pres => pres.id === id);
         specificPresentation.name = presentationName;
-
         updateDatabase(allPresentations);
       }).catch((error) => {
         console.error('Error fetching presentations: ', error);
