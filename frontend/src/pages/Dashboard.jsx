@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuid here
 import NewPresentationButton from '../components/NewPresentationButton';
 import PresentationCard from '../components/PresentationCard';
 
-function Dashboard ({ token, darkMode, setEditMode, setPresentationName }) {
+function Dashboard ({ token, darkMode, setEditMode }) {
   const [presentations, setPresentations] = useState([]);
 
   // Set edit mode to false everytime when arrving on dashboard
@@ -70,7 +70,7 @@ function Dashboard ({ token, darkMode, setEditMode, setPresentationName }) {
         flexGrow: 1,
       }}>
         {presentations.map((presentation) => (
-          <PresentationCard key={presentation.id} presentation={presentation} darkMode={darkMode} setEditMode={setEditMode} setPresentationName={setPresentationName}/>
+          <PresentationCard key={presentation.id} presentation={presentation} darkMode={darkMode} />
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', marginRight: '-20px' }}>

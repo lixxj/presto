@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ConfirmModal from '../components/ConfirmModal';
 
-function EditPresentation ({ token, darkMode }) {
+function EditPresentation ({ token, darkMode, setEditMode, setPresentationName }) {
   const { id } = useParams(); // Get the presentation ID from the URL
   const navigate = useNavigate();
   const [presentation, setPresentation] = useState(null);
@@ -20,6 +20,8 @@ function EditPresentation ({ token, darkMode }) {
         const specificPresentation = allPresentations.find(pres => pres.id === id);
         if (specificPresentation) {
           setPresentation(specificPresentation);
+          setPresentationName(specificPresentation.name);
+          setEditMode(true);
         } else {
           // console.log('Presentation not found');
           navigate('/dashboard');
