@@ -36,10 +36,11 @@ function App () {
           <Routes>
             {/* Default route based on token status */}
             <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} setEditMode={setEditMode}/>} />
+            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} setEditMode={setEditMode}
+            presentationName={presentationName} setPresentationName={setPresentationName} />} />
             <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
-            <Route path="/presentation/:id" element={<EditPresentation token={token} darkMode={darkMode} setEditMode={setEditMode} setPresentationName={setPresentationName} />} />
+            <Route path="/presentation/:id" element={<EditPresentation token={token} darkMode={darkMode}/>} />
 
             {/* More routes */}
           </Routes>
