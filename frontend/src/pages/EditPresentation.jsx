@@ -56,6 +56,13 @@ function EditPresentation ({ token, darkMode }) {
   const inputStyle = darkMode ? { ...darkModeStyles.input } : { ...lightModeStyles.input };
   const buttonStyle = darkMode ? { ...darkModeStyles.button } : { ...lightModeStyles.button };
 
+  const handleMouseOver = (e) => {
+    e.currentTarget.style.transform = 'scale(1.05)';
+  };
+  const handleMouseOut = (e) => {
+    e.currentTarget.style.transform = 'scale(1)';
+  };
+
   useEffect(() => {
     // fetch all presentations and find the specific one by ID
     const fetchPresentations = async () => {
@@ -81,43 +88,56 @@ function EditPresentation ({ token, darkMode }) {
     fetchPresentations();
   }, [id, navigate, token]);
 
-  const handleDelete = async () => {
+  // Helper function to update database given an array
+  // of presentations
+  const updateDatabase = (allPresentations) => {
     try {
-      // console.log('Deleting presentation', id);
+      axios.put('http://localhost:5005/store', {
+        store: {
+          presentations: allPresentations,
+        },
+      }, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      console.error('Error adding new presentation: ', error);
+      alert(error.response?.data?.error || 'An unexpected error occurred');
+    }
+  }
+
+  const deletePresentation = async () => {
+    try {
+      const response = await axios.get('http://localhost:5005/store', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      let allPresentations = response.data.store.presentations || [];
+      allPresentations = allPresentations.filter(pres => pres.id !== id);
+      updateDatabase(allPresentations);
       navigate('/dashboard');
     } catch (error) {
       console.error('Failed to delete presentation', error);
     }
   };
 
-  const updateName = async (newName) => {
-    console.log(presentationName)
-    await axios.get('http://localhost:5005/store', {
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
-      const allPresentations = response.data.store?.presentations || [];
-      const specificPresentation = allPresentations.find(pres => pres.id === id);
-      specificPresentation.name = newName;
-      try {
-        // Updating the backend with the new list of presentations
-        axios.put('http://localhost:5005/store', {
-          store: {
-            presentations: allPresentations,
-          },
-        }, {
-          headers: {
-            Authorization: token,
-          },
-        });
-      } catch (error) {
-        console.error('Error adding new presentation: ', error);
-        alert(error.response?.data?.error || 'An unexpected error occurred');
-      }
-    }).catch((error) => {
-      console.error('Error fetching presentations: ', error);
-    });
+  const updateName = async () => {
+    if (presentationName.length < 1) {
+      alert('Please enter a name');
+    } else {
+      await axios.get('http://localhost:5005/store', {
+        headers: {
+          Authorization: token,
+        },
+      }).then((response) => {
+        const allPresentations = response.data.store?.presentations || [];
+        const specificPresentation = allPresentations.find(pres => pres.id === id);
+        specificPresentation.name = presentationName;
+        updateDatabase(allPresentations);
+      }).catch((error) => {
+        console.error('Error fetching presentations: ', error);
+      });
+    }
   }
 
   return (
@@ -130,18 +150,19 @@ function EditPresentation ({ token, darkMode }) {
               style={{ ...nameStyle, ...inputStyle }}
               type="text"
               value={presentationName}
+              onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}
               onChange={(e) => setPresentationName(e.target.value)}
-              onBlur={(e) => updateName(e.target.value)}
+              onBlur={() => updateName()}
             />
             <p><strong>Description:</strong> {presentation.description || 'No Description'}</p>
             <p><strong>Slides:</strong> {presentation.slides.length}</p>
 
-            <button style={buttonStyle} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
-            <button style={buttonStyle} onClick={() => setShowConfirmModal(true)}>TODO Delete Presentation</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>TODO Delete Presentation</button>
             <ConfirmModal
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
-              onConfirm={handleDelete}
+              onConfirm={deletePresentation}
               darkMode={darkMode}
             />
           </div>
@@ -150,7 +171,7 @@ function EditPresentation ({ token, darkMode }) {
           <p>Could not load presentation</p>
             )
       }
-      <button style={buttonStyle} onClick={() => navigate('/dashboard')}>Back</button>
+      <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back</button>
     </div>
   );
 }
