@@ -42,9 +42,31 @@ function EditPresentation ({ token, darkMode }) {
     fetchPresentations();
   }, [id, navigate, token]);
 
-  const handleDelete = async () => {
+  const updateDatabase = (allPresentations) => {
     try {
-      // console.log('Deleting presentation', id);
+      axios.put('http://localhost:5005/store', {
+        store: {
+          presentations: allPresentations,
+        },
+      }, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (error) {
+      console.error('Error adding new presentation: ', error);
+      alert(error.response?.data?.error || 'An unexpected error occurred');
+    }
+  }
+
+  const deletePresentation = async () => {
+    try {
+      const response = await axios.get('http://localhost:5005/store', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      let allPresentations = response.data.store.presentations || [];
+      allPresentations = allPresentations.filter(pres => pres.id !== id);
+      updateDatabase(allPresentations);
       navigate('/dashboard');
     } catch (error) {
       console.error('Failed to delete presentation', error);
@@ -63,21 +85,8 @@ function EditPresentation ({ token, darkMode }) {
         const allPresentations = response.data.store?.presentations || [];
         const specificPresentation = allPresentations.find(pres => pres.id === id);
         specificPresentation.name = presentationName;
-        try {
-          // Updating the backend with the new list of presentations
-          axios.put('http://localhost:5005/store', {
-            store: {
-              presentations: allPresentations,
-            },
-          }, {
-            headers: {
-              Authorization: token,
-            },
-          });
-        } catch (error) {
-          console.error('Error adding new presentation: ', error);
-          alert(error.response?.data?.error || 'An unexpected error occurred');
-        }
+
+        updateDatabase(allPresentations);
       }).catch((error) => {
         console.error('Error fetching presentations: ', error);
       });
@@ -101,11 +110,11 @@ function EditPresentation ({ token, darkMode }) {
             <p><strong>Slides:</strong> {presentation.slides.length}</p>
 
             <button onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
-            <button onClick={() => setShowConfirmModal(true)}>TODO Delete Presentation</button>
+            <button onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
             <ConfirmModal
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
-              onConfirm={handleDelete}
+              onConfirm={deletePresentation}
               darkMode={darkMode}
             />
           </div>
