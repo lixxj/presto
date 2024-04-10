@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const PresentationCard = ({ presentation, darkMode, onClick }) => {
+const PresentationCard = ({ presentation, darkMode, setEditMode, setPresentationName }) => {
   const { id, name, description, slides, thumbnail } = presentation;
   const navigate = useNavigate();
 
@@ -52,6 +52,8 @@ const PresentationCard = ({ presentation, darkMode, onClick }) => {
 
   const handleClick = () => {
     // console.log(`Presentation ${id} clicked!`);
+    setEditMode(true)
+    setPresentationName(name)
     navigate(`/presentation/${id}`);
   };
 

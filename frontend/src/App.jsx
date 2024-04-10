@@ -15,6 +15,8 @@ function App () {
   const [token, setToken] = useState(lsToken);
 
   const [darkMode, toggleDarkMode] = useDarkMode();
+  const [editMode, setEditMode] = useState(false);
+  const [presentationName, setPresentationName] = useState('')
 
   const setTokenAbstract = (newToken) => {
     if (newToken === null) {
@@ -29,12 +31,13 @@ function App () {
   return (
     <div className={'App d-flex flex-column min-vh-100'}>
       <BrowserRouter>
-        <NavigationBar token={token} darkMode={darkMode} toggleDarkMode={toggleDarkMode} setTokenAbstract={setTokenAbstract} />
+        <NavigationBar token={token} darkMode={darkMode} setTokenAbstract={setTokenAbstract} editMode={editMode} setEditMode={setEditMode} presentationName={presentationName} />
         <Container className="mt-3 flex-grow-1">
           <Routes>
             {/* Default route based on token status */}
             <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} />} />
+            <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} setEditMode={setEditMode}
+            presentationName={presentationName} setPresentationName={setPresentationName} />} />
             <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/presentation/:id" element={<EditPresentation token={token} darkMode={darkMode}/>} />

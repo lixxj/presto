@@ -5,8 +5,12 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuid here
 import NewPresentationButton from '../components/NewPresentationButton';
 import PresentationCard from '../components/PresentationCard';
 
-function Dashboard ({ token, setTokenFunction, darkMode }) {
+function Dashboard ({ token, darkMode, setEditMode, setPresentationName }) {
   const [presentations, setPresentations] = useState([]);
+
+  // Set edit mode to false everytime when arrving on dashboard
+  // Hence removing the save and delete button from the header
+  setEditMode(false);
 
   useEffect(() => {
     if (token) {
@@ -66,7 +70,7 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
         flexGrow: 1,
       }}>
         {presentations.map((presentation) => (
-          <PresentationCard key={presentation.id} presentation={presentation} darkMode={darkMode} />
+          <PresentationCard key={presentation.id} presentation={presentation} darkMode={darkMode} setEditMode={setEditMode} setPresentationName={setPresentationName}/>
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px', marginRight: '-20px' }}>
