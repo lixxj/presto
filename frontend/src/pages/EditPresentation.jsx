@@ -17,6 +17,45 @@ function EditPresentation ({ token, darkMode }) {
     fontSize: '3rem'
   }
 
+  const darkModeStyles = {
+    input: {
+      background: '#333',
+      color: '#fff',
+      border: '1px solid #444',
+    },
+    button: {
+      background: 'linear-gradient(145deg, #556, #334)',
+      color: '#fff',
+      border: '1px solid red',
+      padding: '10px 15px',
+      borderRadius: '10px',
+      cursor: 'pointer',
+      boxShadow: '2px 2px 5px #222',
+      transition: 'all 0.3s ease',
+    },
+  };
+
+  const lightModeStyles = {
+    input: {
+      background: '#fff',
+      color: '#000',
+      border: '1px solid #ccc',
+    },
+    button: {
+      background: 'linear-gradient(145deg, #eee, #ccc)',
+      color: '#000',
+      border: '1px solid red',
+      padding: '10px 15px',
+      borderRadius: '10px',
+      cursor: 'pointer',
+      boxShadow: '2px 2px 5px #ddd',
+      transition: 'all 0.3s ease',
+    },
+  };
+
+  const inputStyle = darkMode ? { ...darkModeStyles.input } : { ...lightModeStyles.input };
+  const buttonStyle = darkMode ? { ...darkModeStyles.button } : { ...lightModeStyles.button };
+
   useEffect(() => {
     // fetch all presentations and find the specific one by ID
     const fetchPresentations = async () => {
@@ -88,7 +127,7 @@ function EditPresentation ({ token, darkMode }) {
           ? (
           <div>
             <input
-              style={nameStyle}
+              style={{ ...nameStyle, ...inputStyle }}
               type="text"
               value={presentationName}
               onChange={(e) => setPresentationName(e.target.value)}
@@ -97,8 +136,8 @@ function EditPresentation ({ token, darkMode }) {
             <p><strong>Description:</strong> {presentation.description || 'No Description'}</p>
             <p><strong>Slides:</strong> {presentation.slides.length}</p>
 
-            <button onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
-            <button onClick={() => setShowConfirmModal(true)}>TODO Delete Presentation</button>
+            <button style={buttonStyle} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
+            <button style={buttonStyle} onClick={() => setShowConfirmModal(true)}>TODO Delete Presentation</button>
             <ConfirmModal
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
@@ -111,7 +150,7 @@ function EditPresentation ({ token, darkMode }) {
           <p>Could not load presentation</p>
             )
       }
-      <button onClick={() => navigate('/dashboard')}>Back</button>
+      <button style={buttonStyle} onClick={() => navigate('/dashboard')}>Back</button>
     </div>
   );
 }
