@@ -157,6 +157,7 @@ function EditPresentation ({ token, darkMode }) {
         presentation
           ? (
           <div>
+            <nav style={ navBarStyle }>
             <input
               style={{ ...nameStyle, ...inputStyle }}
               type="text"
@@ -165,15 +166,20 @@ function EditPresentation ({ token, darkMode }) {
               onChange={(e) => setPresentationName(e.target.value)}
               onBlur={() => updateName()}
             />
-                        <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
+            <div>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
+            </div>
+            </nav>
+
             <div style={ contentAreaStyle }></div>
 
             <nav style={ navBarStyle }>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>Create New Slide TODO</button>
             <div>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate prev slide')}>Next Slide</button>
+            {presentation.length > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>}
+            {presentation.length > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate prev slide')}>Next Slide</button>}
             </div>
             </nav>
             <ConfirmModal
