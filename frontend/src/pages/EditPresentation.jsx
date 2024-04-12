@@ -9,6 +9,7 @@ function EditPresentation ({ token, darkMode }) {
   const [presentation, setPresentation] = useState(null);
   const [presentationName, setPresentationName] = useState(''); // Set presentation name separately so it can be edited later
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [slideNumber, setSlideNumber] = useState(1)
 
   const nameStyle = {
     border: 'none',
@@ -151,6 +152,38 @@ function EditPresentation ({ token, darkMode }) {
     }
   }
 
+  const createNewSlide = async () => {
+    await axios.get('http://localhost:5005/store', {
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      const allPresentations = response.data.store?.presentations || [];
+      const specificPresentation = allPresentations.find(pres => pres.id === id);
+      specificPresentation.slides.push({ content: '' });
+      updateDatabase(allPresentations);
+      setSlideNumber(slideNumber + 1); // Use to determine if prev and next slides button should show
+    }).catch((error) => {
+      console.error('Error fetching presentations: ', error);
+    });
+  }
+
+  const deleteSlide = async () => {
+    await axios.get('http://localhost:5005/store', {
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      const allPresentations = response.data.store?.presentations || [];
+      const specificPresentation = allPresentations.find(pres => pres.id === id);
+      specificPresentation.slides.pop();
+      updateDatabase(allPresentations);
+      setSlideNumber(slideNumber - 1); // Use to determine if prev and next slides button should show
+    }).catch((error) => {
+      console.error('Error fetching presentations: ', error);
+    });
+  }
+
   return (
     <div>
       {
@@ -176,10 +209,11 @@ function EditPresentation ({ token, darkMode }) {
 
             <nav style={ navBarStyle }>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>Create New Slide TODO</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={createNewSlide}>Create New Slide TODO</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={deleteSlide}>Delete Slide</button>
             <div>
-            {presentation.length > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>}
-            {presentation.length > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate prev slide')}>Next Slide</button>}
+            {slideNumber > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>}
+            {slideNumber > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate prev slide')}>Next Slide</button>}
             </div>
             </nav>
             <ConfirmModal
