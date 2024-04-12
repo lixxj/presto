@@ -14,7 +14,7 @@ function EditPresentation ({ token, darkMode }) {
     border: 'none',
     outline: 'none',
     background: 'transparent',
-    fontSize: '2rem'
+    fontSize: '1.5rem'
   }
 
   const darkModeStyles = {
@@ -57,6 +57,11 @@ function EditPresentation ({ token, darkMode }) {
     width: '100%',
     height: '45rem',
     backgroundColor: 'black',
+  }
+
+  const navBarStyle = {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 
   const inputStyle = darkMode ? { ...darkModeStyles.input } : { ...lightModeStyles.input };
@@ -160,10 +165,17 @@ function EditPresentation ({ token, darkMode }) {
               onChange={(e) => setPresentationName(e.target.value)}
               onBlur={() => updateName()}
             />
+                        <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
             <div style={ contentAreaStyle }></div>
 
+            <nav style={ navBarStyle }>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back</button>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
+            <div>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate prev slide')}>Next Slide</button>
+            </div>
+            </nav>
             <ConfirmModal
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
@@ -176,7 +188,6 @@ function EditPresentation ({ token, darkMode }) {
           <p>Could not load presentation</p>
             )
       }
-      <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back</button>
     </div>
   );
 }
