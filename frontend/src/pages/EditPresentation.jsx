@@ -14,7 +14,7 @@ function EditPresentation ({ token, darkMode }) {
     border: 'none',
     outline: 'none',
     background: 'transparent',
-    fontSize: '3rem'
+    fontSize: '2rem'
   }
 
   const darkModeStyles = {
@@ -52,6 +52,12 @@ function EditPresentation ({ token, darkMode }) {
       transition: 'all 0.3s ease',
     },
   };
+
+  const contentAreaStyle = {
+    width: '100%',
+    height: '45rem',
+    backgroundColor: 'black',
+  }
 
   const inputStyle = darkMode ? { ...darkModeStyles.input } : { ...lightModeStyles.input };
   const buttonStyle = darkMode ? { ...darkModeStyles.button } : { ...lightModeStyles.button };
@@ -154,11 +160,10 @@ function EditPresentation ({ token, darkMode }) {
               onChange={(e) => setPresentationName(e.target.value)}
               onBlur={() => updateName()}
             />
-            <p><strong>Description:</strong> {presentation.description || 'No Description'}</p>
-            <p><strong>Slides:</strong> {presentation.slides.length}</p>
+            <div style={ contentAreaStyle }></div>
 
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>TODO Delete Presentation</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
             <ConfirmModal
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
