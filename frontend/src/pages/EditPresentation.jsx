@@ -175,7 +175,7 @@ function EditPresentation ({ token, darkMode }) {
             <div style={ contentAreaStyle }></div>
 
             <nav style={ navBarStyle }>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>Create New Slide TODO</button>
             <div>
             {presentation.length > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>}
