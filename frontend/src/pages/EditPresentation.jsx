@@ -124,6 +124,7 @@ function EditPresentation ({ token, darkMode }) {
           Authorization: token,
         },
       });
+      setAllPresentations(updatedPresentations);
       return true;
     } catch (error) {
       console.error('Error adding new presentation: ', error);
@@ -166,24 +167,13 @@ function EditPresentation ({ token, darkMode }) {
   const createNewSlide = () => {
     const specificPresentation = allPresentations.find(pres => pres.id === id);
     specificPresentation.slides.push({ content: '' });
-    updateDatabase(allPresentations);
     setPresentationLength(presentationLength + 1); // Use to determine if prev and next slides button should show
   }
 
   const deleteSlide = async () => {
-    await axios.get('http://localhost:5005/store', {
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
-      const allPresentations = response.data.store?.presentations || [];
-      const specificPresentation = allPresentations.find(pres => pres.id === id);
-      specificPresentation.slides.pop();
-      updateDatabase(allPresentations);
-      setPresentationLength(presentationLength - 1); // Use to determine if prev and next slides button should show
-    }).catch((error) => {
-      console.error('Error fetching presentations: ', error);
-    });
+    const specificPresentation = allPresentations.find(pres => pres.id === id);
+    specificPresentation.slides.pop();
+    setPresentationLength(presentationLength - 1); // Use to determine if prev and next slides button should show
   }
 
   const nextSlide = () => {
