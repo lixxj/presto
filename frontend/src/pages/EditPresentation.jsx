@@ -7,9 +7,11 @@ function EditPresentation ({ token, darkMode }) {
   const { id } = useParams(); // Get the presentation ID from the URL
   const navigate = useNavigate();
   const [presentation, setPresentation] = useState(null);
+  const [allPresentations, setAllPresentations] = useState(null);
   const [presentationName, setPresentationName] = useState(''); // Set presentation name separately so it can be edited later
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [slideNumber, setSlideNumber] = useState(1)
+  const [presentationLength, setPresentationLength] = useState();
+  const [slideNumber, setSlideNumber] = useState(1);
 
   const nameStyle = {
     border: 'none',
@@ -55,9 +57,16 @@ function EditPresentation ({ token, darkMode }) {
   };
 
   const contentAreaStyle = {
+    position: 'relative',
     width: '100%',
     height: '45rem',
     backgroundColor: 'black',
+  }
+
+  const slideNumberStyle = {
+    position: 'absolute',
+    margin: '0',
+    bottom: '0'
   }
 
   const navBarStyle = {
@@ -85,8 +94,10 @@ function EditPresentation ({ token, darkMode }) {
         const allPresentations = response.data.store.presentations || [];
         const specificPresentation = allPresentations.find(pres => pres.id === id);
         if (specificPresentation) {
+          setAllPresentations(allPresentations);
           setPresentation(specificPresentation);
           setPresentationName(specificPresentation.name);
+          setPresentationLength(specificPresentation.slides.length)
         } else {
           // console.log('Presentation not found');
           navigate('/dashboard');
@@ -102,36 +113,36 @@ function EditPresentation ({ token, darkMode }) {
 
   // Helper function to update database given an array
   // of presentations
-  const updateDatabase = (allPresentations) => {
+  const updateDatabase = async (updatedPresentations) => {
     try {
-      axios.put('http://localhost:5005/store', {
+      await axios.put('http://localhost:5005/store', {
         store: {
-          presentations: allPresentations,
+          presentations: updatedPresentations,
         },
       }, {
         headers: {
           Authorization: token,
         },
       });
+      return true;
     } catch (error) {
       console.error('Error adding new presentation: ', error);
       alert(error.response?.data?.error || 'An unexpected error occurred');
+      return false;
     }
   }
 
   const deletePresentation = async () => {
-    try {
-      const response = await axios.get('http://localhost:5005/store', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      let allPresentations = response.data.store.presentations || [];
-      allPresentations = allPresentations.filter(pres => pres.id !== id);
-      updateDatabase(allPresentations);
+    const updatedPresentations = allPresentations.filter(pres => pres.id !== id);
+
+    if (await updateDatabase(updatedPresentations)) {
       navigate('/dashboard');
-    } catch (error) {
-      console.error('Failed to delete presentation', error);
     }
   };
+
+  const savePresentation = () => {
+    updateDatabase(allPresentations);
+  }
 
   const updateName = async () => {
     if (presentationName.length < 1) {
@@ -152,20 +163,11 @@ function EditPresentation ({ token, darkMode }) {
     }
   }
 
-  const createNewSlide = async () => {
-    await axios.get('http://localhost:5005/store', {
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
-      const allPresentations = response.data.store?.presentations || [];
-      const specificPresentation = allPresentations.find(pres => pres.id === id);
-      specificPresentation.slides.push({ content: '' });
-      updateDatabase(allPresentations);
-      setSlideNumber(slideNumber + 1); // Use to determine if prev and next slides button should show
-    }).catch((error) => {
-      console.error('Error fetching presentations: ', error);
-    });
+  const createNewSlide = () => {
+    const specificPresentation = allPresentations.find(pres => pres.id === id);
+    specificPresentation.slides.push({ content: '' });
+    updateDatabase(allPresentations);
+    setPresentationLength(presentationLength + 1); // Use to determine if prev and next slides button should show
   }
 
   const deleteSlide = async () => {
@@ -178,10 +180,22 @@ function EditPresentation ({ token, darkMode }) {
       const specificPresentation = allPresentations.find(pres => pres.id === id);
       specificPresentation.slides.pop();
       updateDatabase(allPresentations);
-      setSlideNumber(slideNumber - 1); // Use to determine if prev and next slides button should show
+      setPresentationLength(presentationLength - 1); // Use to determine if prev and next slides button should show
     }).catch((error) => {
       console.error('Error fetching presentations: ', error);
     });
+  }
+
+  const nextSlide = () => {
+    if (slideNumber < presentationLength) {
+      setSlideNumber(slideNumber + 1);
+    }
+  }
+
+  const prevSlide = () => {
+    if (slideNumber > 1) {
+      setSlideNumber(slideNumber - 1);
+    }
   }
 
   return (
@@ -201,19 +215,21 @@ function EditPresentation ({ token, darkMode }) {
             />
             <div>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => console.log('Saving changes...')}>TODO Save Changes</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={savePresentation}>Save Changes</button>
             </div>
             </nav>
 
-            <div style={ contentAreaStyle }></div>
+            <div style={ contentAreaStyle }>
+              <p style = { slideNumberStyle }>{slideNumber}</p>
+            </div>
 
             <nav style={ navBarStyle }>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={createNewSlide}>Create New Slide TODO</button>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={deleteSlide}>Delete Slide</button>
             <div>
-            {slideNumber > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate next slide')}>Prev Slide</button>}
-            {slideNumber > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => alert('TODO: navigate prev slide')}>Next Slide</button>}
+            {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={prevSlide}>Prev Slide</button>}
+            {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={nextSlide}>Next Slide</button>}
             </div>
             </nav>
             <ConfirmModal
