@@ -154,27 +154,30 @@ function EditPresentation ({ token, darkMode }) {
 
   const createNewSlide = () => {
     const specificPresentation = allPresentations.find(pres => pres.id === id);
-    specificPresentation.slides.push({ content: '' });
+    specificPresentation.slides.push({ content: [] });
     setPresentationLength(presentationLength + 1); // Use to determine if prev and next slides button should show
   }
 
-  const deleteSlide = async () => {
-    const specificPresentation = allPresentations.find(pres => pres.id === id);
-    specificPresentation.slides.pop();
-    setPresentationLength(presentationLength - 1); // Use to determine if prev and next slides button should show
+  const deleteSlide = () => {
+    if (presentationLength > 1) {
+      const specificPresentation = allPresentations.find(pres => pres.id === id);
+      specificPresentation.slides.pop();
+      prevSlide();
+      setPresentationLength(presentationLength - 1); // Use to determine if prev and next slides button should show
+    } else {
+      alert('This presentation only has one slide. Please use the delete presentation button to delete this presentation instead');
+    }
   }
 
   const nextSlide = () => {
     if (slideNumber < presentationLength) {
       setSlideNumber(slideNumber + 1);
-      console.log(presentation.slides[slideNumber - 1].content)
     }
   }
 
   const prevSlide = () => {
     if (slideNumber > 1) {
       setSlideNumber(slideNumber - 1);
-      console.log(presentation.slides[slideNumber - 1].content)
     }
   }
 
@@ -199,7 +202,7 @@ function EditPresentation ({ token, darkMode }) {
             </div>
             </nav>
 
-            <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
+            <SlideContent slideNumber={slideNumber} content={presentation.slides[0].content} />
 
             <nav style={ navBarStyle }>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
