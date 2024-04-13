@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ConfirmModal from '../components/ConfirmModal';
+import SlideContent from '../components/slideContent';
 
 function EditPresentation ({ token, darkMode }) {
   const { id } = useParams(); // Get the presentation ID from the URL
@@ -55,19 +56,6 @@ function EditPresentation ({ token, darkMode }) {
       transition: 'all 0.3s ease',
     },
   };
-
-  const contentAreaStyle = {
-    position: 'relative',
-    width: '100%',
-    height: '45rem',
-    backgroundColor: 'black',
-  }
-
-  const slideNumberStyle = {
-    position: 'absolute',
-    margin: '0',
-    bottom: '0'
-  }
 
   const navBarStyle = {
     display: 'flex',
@@ -179,12 +167,14 @@ function EditPresentation ({ token, darkMode }) {
   const nextSlide = () => {
     if (slideNumber < presentationLength) {
       setSlideNumber(slideNumber + 1);
+      console.log(presentation.slides[slideNumber - 1].content)
     }
   }
 
   const prevSlide = () => {
     if (slideNumber > 1) {
       setSlideNumber(slideNumber - 1);
+      console.log(presentation.slides[slideNumber - 1].content)
     }
   }
 
@@ -209,13 +199,11 @@ function EditPresentation ({ token, darkMode }) {
             </div>
             </nav>
 
-            <div style={ contentAreaStyle }>
-              <p style = { slideNumberStyle }>{slideNumber}</p>
-            </div>
+            <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
 
             <nav style={ navBarStyle }>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={createNewSlide}>Create New Slide TODO</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={createNewSlide}>Create New Slide</button>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={deleteSlide}>Delete Slide</button>
             <div>
             {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={prevSlide}>Prev Slide</button>}
