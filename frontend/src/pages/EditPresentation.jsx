@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ConfirmModal from '../components/ConfirmModal';
+import AddTextModal from '../components/AddTextModal';
 import SlideContent from '../components/slideContent';
+import Stack from '@mui/material/Stack';
 
 function EditPresentation ({ token, darkMode }) {
   const { id } = useParams(); // Get the presentation ID from the URL
@@ -11,6 +13,7 @@ function EditPresentation ({ token, darkMode }) {
   const [allPresentations, setAllPresentations] = useState(null);
   const [presentationName, setPresentationName] = useState(''); // Set presentation name separately so it can be edited later
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showAddTextModal, setAddTextModal] = useState(false);
   const [presentationLength, setPresentationLength] = useState();
   const [slideNumber, setSlideNumber] = useState(1);
 
@@ -60,6 +63,11 @@ function EditPresentation ({ token, darkMode }) {
   const navBarStyle = {
     display: 'flex',
     justifyContent: 'space-between'
+  }
+
+  const contentButtonStyle = {
+    position: 'absolute',
+    left: '5%'
   }
 
   const inputStyle = darkMode ? { ...darkModeStyles.input } : { ...lightModeStyles.input };
@@ -133,6 +141,7 @@ function EditPresentation ({ token, darkMode }) {
     updateDatabase(allPresentations);
   }
 
+  // Update later
   const updateName = async () => {
     if (presentationName.length < 1) {
       alert('Please enter a name');
@@ -202,6 +211,12 @@ function EditPresentation ({ token, darkMode }) {
             </div>
             </nav>
 
+            <Stack spacing={2} style = { contentButtonStyle }>
+              <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setAddTextModal(true)}>Add Text 🔤</button>
+              <button style={buttonStyle}>Add Image 🖼️</button>
+              <button style={buttonStyle}>Add Code ⚙️</button>
+            </Stack>
+
             <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
 
             <nav style={ navBarStyle }>
@@ -217,6 +232,11 @@ function EditPresentation ({ token, darkMode }) {
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
               onConfirm={deletePresentation}
+              darkMode={darkMode}
+            />
+             <AddTextModal
+              show={showAddTextModal}
+              onHide={() => setAddTextModal(false)}
               darkMode={darkMode}
             />
           </div>
