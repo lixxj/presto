@@ -39,6 +39,10 @@ function EditPresentation ({ token, darkMode }) {
       cursor: 'pointer',
       boxShadow: '2px 2px 5px #222',
       transition: 'all 0.3s ease',
+      '@media (max-width: 600px)': {
+        padding: '8px 10px',
+        fontSize: '0.8rem',
+      },
     },
   };
 
@@ -57,12 +61,19 @@ function EditPresentation ({ token, darkMode }) {
       cursor: 'pointer',
       boxShadow: '2px 2px 5px #ddd',
       transition: 'all 0.3s ease',
+      '@media (max-width: 600px)': {
+        padding: '8px 10px',
+        fontSize: '0.8rem',
+      },
     },
   };
 
   const navBarStyle = {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    '@media (max-width: 600px)': {
+      flexDirection: 'column',
+    },
   }
 
   const contentButtonStyle = {
@@ -214,6 +225,7 @@ function EditPresentation ({ token, darkMode }) {
             <Stack spacing={2} style = { contentButtonStyle }>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setAddTextModal(true)}>Add Text 🔤</button>
               <button style={buttonStyle}>Add Image 🖼️</button>
+              <button style={buttonStyle}>Add Video 🎥</button>
               <button style={buttonStyle}>Add Code ⚙️</button>
             </Stack>
 
