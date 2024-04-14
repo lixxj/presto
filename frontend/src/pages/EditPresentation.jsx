@@ -238,6 +238,9 @@ function EditPresentation ({ token, darkMode }) {
               show={showAddTextModal}
               onHide={() => setAddTextModal(false)}
               darkMode={darkMode}
+              slideNumber={slideNumber - 1}
+              presentation={presentation}
+              updateDatabase={updateDatabase}
             />
           </div>
             )

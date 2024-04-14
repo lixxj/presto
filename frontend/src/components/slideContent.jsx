@@ -14,17 +14,11 @@ function slideContent ({ slideNumber, content }) {
     bottom: '0'
   }
 
-  const test = () => {
-    content.map(line => (
-      console.log(line)
-    ))
-  }
-
   return (
     <div style={ contentAreaStyle }>
-        <p style = { slideNumberStyle } onClick={test}>{slideNumber}</p>
+        <p style = { slideNumberStyle }>{slideNumber}</p>
         {content.map((line, index) => (
-            <p key={index}>{line}</p>
+            <p key={index} style = { { fontSize: line.fontSize, color: line.color }}>{line.text}</p>
         ))}
     </div>
   );

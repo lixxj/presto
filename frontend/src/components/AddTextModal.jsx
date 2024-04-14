@@ -2,8 +2,11 @@ import { React, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-function AddTextModal ({ show, onHide, darkMode }) {
+function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
+  const [textAreaSize, setTextAreaSize] = useState('');
   const [text, setText] = useState('');
+  const [fontSize, setFontSize] = useState('');
+  const [color, setColor] = useState('');
 
   const darkModeStyles = {
     color: '#E9ECEF',
@@ -37,9 +40,14 @@ function AddTextModal ({ show, onHide, darkMode }) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
-  // TODO: Add content to database
+  // TODO: check if entered values are valid
+  // What is textAreaSize?
   const addTextToSlide = () => {
-    console.log(text);
+    if (!textAreaSize || !text || !fontSize || !color) {
+      alert('Please fill out all the required fields');
+    } else {
+      presentation.slides[slideNumber].content.push({ textAreaSize, text, fontSize, color });
+    }
   }
 
   return (
@@ -50,17 +58,37 @@ function AddTextModal ({ show, onHide, darkMode }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={modalStyle}>
-        <h5>Enter a line of text to add to the slide</h5>
+      <h6>Size of Text Area</h6>
+        <input
+          style={inputStyle}
+          onChange={(e) => setTextAreaSize(e.target.value)}
+          type="text"
+        />
+        <h6>Enter a line of text to add to the slide</h6>
         <input
           style={inputStyle}
           onChange={(e) => setText(e.target.value)}
           type="text"
         />
+        <h6>Font Size</h6>
+        <input
+          style={inputStyle}
+          onChange={(e) => setFontSize(e.target.value + 'em')}
+          placeholder="EM"
+          type="text"
+        />
+        <h6>Color</h6>
+        <input
+          style={inputStyle}
+          onChange={(e) => setColor(e.target.value)}
+          placeholder="Hex code. Eg) #0000ff"
+          type="text"
+        />
       </Modal.Body>
       <Modal.Footer style={modalStyle}>
         <Button type="submit" style={buttonStyle} onClick={() => {
-          addTextToSlide(text);
-          onHide(); // Close the modal after confirmation
+          addTextToSlide();
+          onHide();
         }}>Add</Button>
       </Modal.Footer>
   </Modal>
