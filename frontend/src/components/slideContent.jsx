@@ -14,11 +14,26 @@ function slideContent ({ slideNumber, content }) {
     bottom: '0'
   }
 
+  const textFieldStyle = {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    border: '1px solid grey',
+    borderRadius: '5px',
+    overflow: 'hidden'
+  }
+
   return (
     <div style={ contentAreaStyle }>
         <p style = { slideNumberStyle }>{slideNumber}</p>
         {content.map((line, index) => (
-            <p key={index} style = { { fontSize: line.fontSize, color: line.color }}>{line.text}</p>
+            <input key={index} style = { {
+              ...textFieldStyle,
+              width: line.textAreaWidth,
+              height: line.textAreaHeight,
+              fontSize: line.fontSize,
+              color: line.color
+            } }
+              value={line.text}/>
         ))}
     </div>
   );

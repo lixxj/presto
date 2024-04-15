@@ -3,7 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
-  const [textAreaSize, setTextAreaSize] = useState('');
+  const [textAreaWidth, setTextAreaWidth] = useState('');
+  const [textAreaHeight, setTextAreaHeight] = useState('');
   const [text, setText] = useState('');
   const [fontSize, setFontSize] = useState('');
   const [color, setColor] = useState('');
@@ -43,10 +44,10 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
   // TODO: check if entered values are valid
   // What is textAreaSize?
   const addTextToSlide = () => {
-    if (!textAreaSize || !text || !fontSize || !color) {
+    if (!textAreaWidth || !textAreaHeight || !text || !fontSize || !color) {
       alert('Please fill out all the required fields');
     } else {
-      presentation.slides[slideNumber].content.push({ textAreaSize, text, fontSize, color });
+      presentation.slides[slideNumber].content.push({ textAreaWidth, textAreaHeight, text, fontSize, color });
     }
   }
 
@@ -58,11 +59,19 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={modalStyle}>
-      <h6>Size of Text Area</h6>
+        <h6>Width of Text Area</h6>
         <input
           style={inputStyle}
-          onChange={(e) => setTextAreaSize(e.target.value)}
-          type="text"
+          onChange={(e) => setTextAreaWidth(e.target.value + 'px')}
+          placeholder="Enter a Number"
+          type="number"
+        />
+        <h6>Height of Text Area</h6>
+        <input
+          style={inputStyle}
+          onChange={(e) => setTextAreaHeight(e.target.value + 'px')}
+          placeholder="Enter a Number"
+          type="number"
         />
         <h6>Enter a line of text to add to the slide</h6>
         <input
@@ -75,7 +84,7 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
           style={inputStyle}
           onChange={(e) => setFontSize(e.target.value + 'em')}
           placeholder="EM"
-          type="text"
+          type="number"
         />
         <h6>Color</h6>
         <input
