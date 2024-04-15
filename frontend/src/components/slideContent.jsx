@@ -26,7 +26,7 @@ function slideContent ({ slideNumber, content }) {
     <div style={ contentAreaStyle }>
         <p style = { slideNumberStyle }>{slideNumber}</p>
         {content.map((line, index) => (
-            <input key={index} style = { {
+            <textarea key={index} style = { {
               ...textFieldStyle,
               width: line.textAreaWidth,
               height: line.textAreaHeight,
