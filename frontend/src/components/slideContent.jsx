@@ -6,6 +6,7 @@ function slideContent ({ slideNumber, content }) {
     width: '100%',
     height: '45rem',
     backgroundColor: 'white',
+    borderRadius: '5px'
   }
 
   const slideNumberStyle = {
@@ -37,7 +38,11 @@ function slideContent ({ slideNumber, content }) {
       )
     } else if (element.type === 'image') {
       return (
-        <img src={element.url}></img>
+        <img style={ {
+          width: element.width,
+          height: element.height
+        } }
+          src={element.url}></img>
       )
     }
   }
