@@ -42,6 +42,7 @@ function slideContent ({ slideNumber, content }) {
           width: element.width,
           height: element.height
         } }
+          alt={element.description}
           src={element.url}></img>
       )
     }

@@ -10,6 +10,7 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
   const [imageWidth, setImageWidth] = useState('');
   const [imageHeight, setImageHeight] = useState('');
   const [previewUrl, setPreviewUrl] = useState('');
+  const [imageDescription, setImageDescription] = useState('');
 
   const darkModeStyles = {
     color: '#E9ECEF',
@@ -63,7 +64,8 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
         type: 'image',
         url: imageUrl,
         width: imageWidth + 'px',
-        height: imageHeight + 'px'
+        height: imageHeight + 'px',
+        description: imageDescription
       });
       // updateDatabase && updateDatabase(presentation); // Optionally update the database if function provided
       onHide(); // Close the modal after adding
@@ -105,6 +107,14 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
           onChange={(e) => setImageHeight(e.target.value)}
           placeholder="Enter height in pixels"
           type="number"
+        />
+         <h6>Image Description</h6>
+        <input
+          style={inputStyle}
+          value={imageHeight}
+          onChange={(e) => setImageDescription(e.target.value)}
+          placeholder="Enter a description for the image"
+          type="text"
         />
       </Modal.Body>
       <Modal.Footer style={modalStyle}>
