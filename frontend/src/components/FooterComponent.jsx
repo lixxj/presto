@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 
 const FooterComponent = ({ darkMode, toggleDarkMode }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const footerStyle = {
     width: '100%',

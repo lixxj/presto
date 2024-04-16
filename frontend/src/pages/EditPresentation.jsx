@@ -4,7 +4,6 @@ import axios from 'axios';
 import ConfirmModal from '../components/ConfirmModal';
 import AddTextModal from '../components/AddTextModal';
 import SlideContent from '../components/slideContent';
-import Stack from '@mui/material/Stack';
 
 function EditPresentation ({ token, darkMode }) {
   const { id } = useParams(); // Get the presentation ID from the URL
@@ -74,12 +73,16 @@ function EditPresentation ({ token, darkMode }) {
     '@media (max-width: 600px)': {
       flexDirection: 'column',
     },
-  }
+  };
 
-  const contentButtonStyle = {
-    position: 'absolute',
-    left: '5%'
-  }
+  const navBarStyle2 = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    '@media (max-width: 600px)': {
+      flexDirection: 'column',
+      alignItems: 'flex-end'
+    },
+  };
 
   const inputStyle = darkMode ? { ...darkModeStyles.input } : { ...lightModeStyles.input };
   const buttonStyle = darkMode ? { ...darkModeStyles.button } : { ...lightModeStyles.button };
@@ -222,24 +225,25 @@ function EditPresentation ({ token, darkMode }) {
             </div>
             </nav>
 
-            <Stack spacing={2} style = { contentButtonStyle }>
+            <nav style={ navBarStyle2 }>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setAddTextModal(true)}>Add Text 🔤</button>
               <button style={buttonStyle}>Add Image 🖼️</button>
               <button style={buttonStyle}>Add Video 🎥</button>
               <button style={buttonStyle}>Add Code ⚙️</button>
-            </Stack>
+            </nav>
 
             <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
 
             <nav style={ navBarStyle }>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={createNewSlide}>Create New Slide</button>
-            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={deleteSlide}>Delete Slide</button>
-            <div>
-            {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={prevSlide}>Prev Slide</button>}
-            {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={nextSlide}>Next Slide</button>}
-            </div>
+              <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
+              <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={createNewSlide}>Create New Slide</button>
+              <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={deleteSlide}>Delete Slide</button>
+              <div>
+                {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={prevSlide}>Prev Slide</button>}
+                {presentationLength > 1 && <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={nextSlide}>Next Slide</button>}
+              </div>
             </nav>
+
             <ConfirmModal
               show={showConfirmModal}
               onHide={() => setShowConfirmModal(false)}
