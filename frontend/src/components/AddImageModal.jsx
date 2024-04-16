@@ -100,6 +100,7 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
           placeholder="Enter width in pixels"
           type="number"
         />
+
         <h6>Height of Image (px)</h6>
         <input
           style={inputStyle}
@@ -108,10 +109,11 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
           placeholder="Enter height in pixels"
           type="number"
         />
-         <h6>Image Description</h6>
+
+        <h6>Image Description</h6>
         <input
           style={inputStyle}
-          value={imageHeight}
+          value={imageDescription}
           onChange={(e) => setImageDescription(e.target.value)}
           placeholder="Enter a description for the image"
           type="text"
