@@ -7,6 +7,7 @@ import SlideContent from '../components/slideContent';
 import CodeBlockModal from '../components/CodeBlockModal';
 import AddImageModal from '../components/AddImageModal';
 import AddVideoModal from '../components/AddVideoModal';
+import ThumbnailUploadModal from '../components/ThumbnailUploadModal';
 
 function EditPresentation ({ token, darkMode }) {
   const { id } = useParams(); // Get the presentation ID from the URL
@@ -22,6 +23,7 @@ function EditPresentation ({ token, darkMode }) {
   const [showCodeBlockModal, setShowCodeBlockModal] = useState(false);
   const [showAddImageModal, setShowAddImageModal] = useState(false);
   const [showAddVideoModal, setShowAddVideoModal] = useState(false);
+  const [showThumbnailModal, setShowThumbnailModal] = useState(false);
 
   const nameStyle = {
     border: 'none',
@@ -182,6 +184,31 @@ function EditPresentation ({ token, darkMode }) {
     }
   }
 
+  const updateThumbnail = async (newThumbnail) => {
+    if (!newThumbnail) {
+      alert('Please upload a thumbnail');
+      return;
+    }
+
+    // Fetch all presentations to ensure we have the latest data
+    await axios.get('http://localhost:5005/store', {
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      const allPresentations = response.data.store?.presentations || [];
+      const specificPresentation = allPresentations.find(pres => pres.id === id);
+      if (specificPresentation) {
+        specificPresentation.thumbnail = newThumbnail; // Update the thumbnail in the found presentation
+        updateDatabase(allPresentations); // Save all presentations with the updated thumbnail
+      } else {
+        alert('Presentation not found');
+      }
+    }).catch((error) => {
+      console.error('Error fetching presentations:', error);
+    });
+  }
+
   const createNewSlide = () => {
     const specificPresentation = allPresentations.find(pres => pres.id === id);
     specificPresentation.slides.push({ content: [] });
@@ -229,6 +256,7 @@ function EditPresentation ({ token, darkMode }) {
             <div>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowConfirmModal(true)}>Delete Presentation</button>
             <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={savePresentation}>Save Changes</button>
+            <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowThumbnailModal(true)}>Update Thumbnail</button>
             </div>
             </nav>
 
@@ -238,6 +266,13 @@ function EditPresentation ({ token, darkMode }) {
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowAddVideoModal(true)}>Add Video 🎥</button>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowCodeBlockModal(true)}>Add Code ⚙️</button>
             </nav>
+
+            <ThumbnailUploadModal
+              show={showThumbnailModal}
+              onHide={() => setShowThumbnailModal(false)}
+              onUpdate={updateThumbnail}
+              darkMode={darkMode}
+            />
 
             <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
 
