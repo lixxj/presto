@@ -10,6 +10,7 @@ function slideContent ({ slideNumber, content }) {
 
   const slideNumberStyle = {
     position: 'absolute',
+    color: 'black',
     margin: '0',
     bottom: '0'
   }
@@ -22,18 +23,30 @@ function slideContent ({ slideNumber, content }) {
     overflow: 'hidden'
   }
 
+  const renderElement = (element, index) => {
+    if (element.type === 'text') {
+      return (
+        <textarea key={index} style = { {
+          ...textFieldStyle,
+          width: element.textAreaWidth,
+          height: element.textAreaHeight,
+          fontSize: element.fontSize,
+          color: element.color
+        } }
+          value={element.text}/>
+      )
+    } else if (element.type === 'image') {
+      return (
+        <img src={element.url}></img>
+      )
+    }
+  }
+
   return (
     <div style={ contentAreaStyle }>
         <p style = { slideNumberStyle }>{slideNumber}</p>
         {content.map((line, index) => (
-            <textarea key={index} style = { {
-              ...textFieldStyle,
-              width: line.textAreaWidth,
-              height: line.textAreaHeight,
-              fontSize: line.fontSize,
-              color: line.color
-            } }
-              value={line.text}/>
+          renderElement(line, index)
         ))}
     </div>
   );

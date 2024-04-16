@@ -65,7 +65,7 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
         width: imageWidth + 'px',
         height: imageHeight + 'px'
       });
-      updateDatabase && updateDatabase(presentation); // Optionally update the database if function provided
+      // updateDatabase && updateDatabase(presentation); // Optionally update the database if function provided
       onHide(); // Close the modal after adding
     }
   };
