@@ -47,7 +47,7 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
     if (!textAreaWidth || !textAreaHeight || !text || !fontSize || !color) {
       alert('Please fill out all the required fields');
     } else {
-      presentation.slides[slideNumber].content.push({ textAreaWidth, textAreaHeight, text, fontSize, color });
+      presentation.slides[slideNumber].content.push({ type: 'text', textAreaWidth, textAreaHeight, text, fontSize, color });
     }
   }
 
