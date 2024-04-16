@@ -5,7 +5,7 @@ function slideContent ({ slideNumber, content }) {
     position: 'relative',
     width: '100%',
     height: '45rem',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   }
 
   const slideNumberStyle = {
