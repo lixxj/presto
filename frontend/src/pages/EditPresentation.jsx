@@ -5,6 +5,7 @@ import ConfirmModal from '../components/ConfirmModal';
 import AddTextModal from '../components/AddTextModal';
 import SlideContent from '../components/slideContent';
 import CodeBlockModal from '../components/CodeBlockModal';
+import AddImageModal from '../components/AddImageModal';
 
 function EditPresentation ({ token, darkMode }) {
   const { id } = useParams(); // Get the presentation ID from the URL
@@ -18,6 +19,7 @@ function EditPresentation ({ token, darkMode }) {
   const [slideNumber, setSlideNumber] = useState(1);
 
   const [showCodeBlockModal, setShowCodeBlockModal] = useState(false);
+  const [showAddImageModal, setShowAddImageModal] = useState(false);
 
   const nameStyle = {
     border: 'none',
@@ -230,7 +232,7 @@ function EditPresentation ({ token, darkMode }) {
 
             <nav style={ navBarStyle2 }>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setAddTextModal(true)}>Add Text 🔤</button>
-              <button style={buttonStyle}>Add Image 🖼️</button>
+              <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowAddImageModal(true)}>Add Image 🖼️</button>
               <button style={buttonStyle}>Add Video 🎥</button>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => setShowCodeBlockModal(true)}>Add Code ⚙️</button>
             </nav>
@@ -269,6 +271,16 @@ function EditPresentation ({ token, darkMode }) {
               presentation={presentation}
               darkMode={darkMode}
             />
+
+            <AddImageModal
+              show={showAddImageModal}
+              onHide={() => setShowAddImageModal(false)}
+              darkMode={darkMode}
+              slideNumber={slideNumber - 1}
+              presentation={presentation}
+              updateDatabase={updateDatabase}
+            />
+
           </div>
             )
           : (
