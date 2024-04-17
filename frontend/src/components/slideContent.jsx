@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function SlideContent ({ slideNumber, content }) {
+  const [fontStyles, setFontStyles] = useState(content.map(() => 'Courier'));
+  const [isVisible, setIsVisible] = useState(content.map(() => false));
+
   const contentAreaStyle = {
     position: 'relative',
     width: '100%',
@@ -24,18 +27,53 @@ function SlideContent ({ slideNumber, content }) {
     overflow: 'hidden'
   };
 
+  const handleFontChange = (font, index) => {
+    const newFontStyles = [...fontStyles];
+    newFontStyles[index] = font;
+    setFontStyles(newFontStyles);
+  };
+
+  const toggleDropdown = (index) => {
+    const newVisibility = [...isVisible];
+    newVisibility[index] = !newVisibility[index];
+    setIsVisible(newVisibility);
+  };
+
   const renderElement = (element, index) => {
     switch (element.type) {
       case 'text':
         return (
-          <textarea key={index} style={{
-            ...textFieldStyle,
-            width: element.textAreaWidth,
-            height: element.textAreaHeight,
-            fontSize: element.fontSize,
-            color: element.color
-          }}
-            value={element.text} readOnly/>
+          <div key={index} style={{ position: 'relative', width: element.textAreaWidth }}>
+            <textarea
+              style={{
+                ...textFieldStyle,
+                width: element.textAreaWidth,
+                height: element.textAreaHeight,
+                fontSize: element.fontSize,
+                color: element.color,
+                fontFamily: fontStyles[index]
+              }}
+              value={element.text} readOnly
+              onClick={() => toggleDropdown(index)}
+            />
+            {isVisible[index] && (
+              <select style={{
+                position: 'absolute',
+                width: '80%',
+                top: '20%',
+                left: '50%',
+                transform: 'translate(-50%, 0%)'
+              }}
+                onChange={(e) => handleFontChange(e.target.value, index)}
+                onBlur={() => toggleDropdown(index)}
+                value={fontStyles[index]}>
+                <option value="Courier">Courier</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+              </select>
+            )}
+          </div>
         );
       case 'image':
         return (
@@ -53,8 +91,8 @@ function SlideContent ({ slideNumber, content }) {
             height: element.height
           }}
             controls
-            autoPlay={element.autoPlay}
-            muted={element.autoPlay}>
+            autoPlay={true}
+            muted={true}>
             <source src={element.url} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
