@@ -55,7 +55,7 @@ function CodeBlockModal ({ show, onHide, darkMode, slideNumber, presentation }) 
       return;
     }
 
-    presentation.slides[slideNumber].content.push({ code, language, fontSize, textareaWidth, textareaHeight });
+    // presentation.slides[slideNumber].content.push({ code, language, fontSize, textareaWidth, textareaHeight });
     onHide();
   };
 
