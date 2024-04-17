@@ -57,7 +57,7 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
   };
 
   const addImageToSlide = () => {
-    if (!imageUrl || !imageWidth || !imageHeight) {
+    if (!imageUrl || !imageWidth || !imageHeight || !imageDescription) {
       alert('Please fill out all the fields');
     } else {
       presentation.slides[slideNumber].content.push({
