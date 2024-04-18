@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PresentationCard = ({ presentation, darkMode, onClick }) => {
   const { id, name, description, slides, thumbnail } = presentation;
+  const navigate = useNavigate();
 
   const cardStyle = {
     backgroundColor: darkMode ? '#333' : '#FFF',
@@ -17,7 +19,7 @@ const PresentationCard = ({ presentation, darkMode, onClick }) => {
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     cursor: 'pointer',
     overflow: 'hidden',
-    aspectRatio: '2:1',
+    aspectRatio: '2 / 1',
   };
 
   // Hover effect
@@ -49,9 +51,8 @@ const PresentationCard = ({ presentation, darkMode, onClick }) => {
   };
 
   const handleClick = () => {
-    console.log(`Presentation ${id} clicked!`);
-    // Implement navigation or modal opening logic here
-    // navigate(`/presentation/${id}`); or setOpenModal(true);
+    // console.log(`Presentation ${id} clicked!`);
+    navigate(`/presentation/${id}`);
   };
 
   return (

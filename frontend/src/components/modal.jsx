@@ -46,7 +46,7 @@ function ModalComponent ({ show, onHide, addPresentation, darkMode }) {
         name: presentationName,
         thumbnail: '',
         description: '',
-        slides: [{ content: '' }],
+        slides: [{ content: [] }],
       };
 
       addPresentation(newPresentation);

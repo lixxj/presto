@@ -8,6 +8,7 @@ import { Container } from 'react-bootstrap';
 import FooterComponent from './components/FooterComponent';
 import NavigationBar from './components/navigationBar';
 import useDarkMode from './hooks/useDarkMode';
+import EditPresentation from './pages/EditPresentation';
 
 function App () {
   const lsToken = localStorage.getItem('token') || null;
@@ -36,6 +37,8 @@ function App () {
             <Route path="/dashboard" element={<Dashboard token={token} setTokenFunction={setTokenAbstract} darkMode={darkMode} />} />
             <Route path="/register" element={<Register token={token} setTokenFunction={setTokenAbstract} />} />
             <Route path="/login" element={<Login token={token} setTokenFunction={setTokenAbstract} />} />
+            <Route path="/presentation/:id" element={<EditPresentation token={token} darkMode={darkMode}/>} />
+
             {/* More routes */}
           </Routes>
         </Container>

@@ -1,6 +1,8 @@
-import React from 'react';
+import { React, useState } from 'react';
 
 const FooterComponent = ({ darkMode, toggleDarkMode }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
   const footerStyle = {
     width: '100%',
     padding: '10px 0',
@@ -11,6 +13,8 @@ const FooterComponent = ({ darkMode, toggleDarkMode }) => {
     height: '9vh',
     backgroundColor: darkMode ? '#343a40' : '#f8f9fa',
     color: darkMode ? '#f8f9fa' : '#343a40',
+    transition: 'transform 0.5s ease',
+    transform: isVisible ? 'translateY(0)' : 'translateY(90%)',
   };
 
   const toggleButtonStyle = {
@@ -22,8 +26,16 @@ const FooterComponent = ({ darkMode, toggleDarkMode }) => {
     borderWidth: '5px',
   };
 
+  const mouseOn = () => {
+    setIsVisible(true);
+  };
+
+  const mouseOff = () => {
+    setIsVisible(false);
+  };
+
   return (
-    <div style={footerStyle}>
+    <div style={footerStyle} onMouseEnter={mouseOn} onMouseLeave={mouseOff}>
       <button
         onClick={toggleDarkMode}
         className={`btn ${darkMode ? 'btn-light' : 'btn-dark'}`}
