@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import javascript from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
+import python from 'react-syntax-highlighter/dist/esm/languages/hljs/python';
+import c from 'react-syntax-highlighter/dist/esm/languages/hljs/c';
+
+SyntaxHighlighter.registerLanguage('javascript', javascript);
+SyntaxHighlighter.registerLanguage('python', python);
+SyntaxHighlighter.registerLanguage('c', c);
 
 function SlideContent ({ slideNumber, content }) {
   const [fontStyles, setFontStyles] = useState(content.map(() => 'Courier'));
@@ -97,21 +106,20 @@ function SlideContent ({ slideNumber, content }) {
     switch (element.type) {
       case 'text':
         return (
+          <Draggable bounds="parent">
           <div key={index} style={{ position: 'relative', width: element.textAreaWidth }}>
-            <Draggable bounds="parent">
-            <textarea
-              style={{
-                ...textFieldStyle,
-                width: element.textAreaWidth,
-                height: element.textAreaHeight,
-                fontSize: element.fontSize,
-                color: element.color,
-                fontFamily: fontStyles[index]
-              }}
-              value={element.text} readOnly
-              onClick={() => toggleDropdown(index)}
-            />
-            </Draggable>
+              <textarea
+                style={{
+                  ...textFieldStyle,
+                  width: element.textAreaWidth,
+                  height: element.textAreaHeight,
+                  fontSize: element.fontSize,
+                  color: element.color,
+                  fontFamily: fontStyles[index]
+                }}
+                value={element.text} readOnly
+                onClick={() => toggleDropdown(index)}
+              />
             {isVisible[index] && (
               <select style={{
                 position: 'absolute',
@@ -130,16 +138,17 @@ function SlideContent ({ slideNumber, content }) {
               </select>
             )}
           </div>
+          </Draggable>
         );
       case 'image':
         return (
           <Draggable bounds="parent">
-          <img key={index} style={{
-            width: element.width,
-            height: element.height
-          }}
-            alt={element.description}
-            src={element.url} />
+            <img key={index} style={{
+              width: element.width,
+              height: element.height
+            }}
+              alt={element.description}
+              src={element.url} />
           </Draggable>
         );
       case 'video':
@@ -153,6 +162,21 @@ function SlideContent ({ slideNumber, content }) {
           </iframe>
           </Draggable>
         );
+      case 'code':
+        return (
+          <Draggable bounds="parent">
+              <SyntaxHighlighter
+                language={element.language}
+                style={docco}
+                customStyle={{
+                  fontSize: `${element.fontSize}em`,
+                  width: `${element.textareaWidth}%`,
+                  height: `${element.textareaHeight}px`,
+                }}>
+                {element.code}
+              </SyntaxHighlighter>
+          </Draggable>
+        )
       default:
         return null;
     }
