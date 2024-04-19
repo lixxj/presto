@@ -108,7 +108,7 @@ function CodeBlockModal ({ show, onHide, darkMode, slideNumber, presentation }) 
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Textarea Height (px)</Form.Label>
+            <Form.Label>Textarea Height (%)</Form.Label>
             <Form.Control
               type="number"
               value={textareaHeight}
@@ -116,7 +116,7 @@ function CodeBlockModal ({ show, onHide, darkMode, slideNumber, presentation }) 
               style={inputStyle}
             />
           </Form.Group>
-          <SyntaxHighlighter language={language} style={docco} customStyle={{ fontSize: `${fontSize}em`, width: `${textareaWidth}%`, height: `${textareaHeight}px` }}>
+          <SyntaxHighlighter language={language} style={docco} customStyle={{ fontSize: `${fontSize}em`, width: `${textareaWidth}%`, height: `${textareaHeight}%` }}>
             {code}
           </SyntaxHighlighter>
         </Form>

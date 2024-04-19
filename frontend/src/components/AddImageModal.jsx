@@ -63,8 +63,8 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
       presentation.slides[slideNumber].content.push({
         type: 'image',
         url: imageUrl,
-        width: imageWidth + 'px',
-        height: imageHeight + 'px',
+        width: imageWidth + '%',
+        height: imageHeight + '%',
         description: imageDescription
       });
       // updateDatabase && updateDatabase(presentation); // Optionally update the database if function provided
@@ -92,21 +92,21 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
             <img src={previewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
           </div>
         )}
-        <h6>Width of Image (px)</h6>
+        <h6>Width of Image (%)</h6>
         <input
           style={inputStyle}
           value={imageWidth}
           onChange={(e) => setImageWidth(e.target.value)}
-          placeholder="Enter width in pixels"
+          placeholder="Enter a number"
           type="number"
         />
 
-        <h6>Height of Image (px)</h6>
+        <h6>Height of Image (%)</h6>
         <input
           style={inputStyle}
           value={imageHeight}
           onChange={(e) => setImageHeight(e.target.value)}
-          placeholder="Enter height in pixels"
+          placeholder="Enter a number"
           type="number"
         />
 

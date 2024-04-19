@@ -186,7 +186,7 @@ function SlideContent ({ slideNumber, content, presentation, setPresentation }) 
                 customStyle={{
                   fontSize: `${element.fontSize}em`,
                   width: `${element.textareaWidth}%`,
-                  height: `${element.textareaHeight}px`,
+                  height: `${element.textareaHeight}%`,
                 }}>
                 {element.code}
               </SyntaxHighlighter>
