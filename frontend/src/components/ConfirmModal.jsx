@@ -27,7 +27,7 @@ function ConfirmModal ({ show, onHide, onConfirm, darkMode }) {
       <Modal.Footer style={darkMode ? darkModeStyles : lightModeStyles}>
         <Button variant={yesButtonVariant} onClick={() => {
           onConfirm();
-          onHide(); // Close the modal after confirmation
+          onHide(); /* Close the modal after confirmation */
         }}>
           Yes
         </Button>

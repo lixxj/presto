@@ -5,10 +5,10 @@ import ModalComponent from './modal';
 function NewPresentationButton ({ darkMode, addPresentation }) {
   const [modalShow, setModalShow] = useState(false);
 
-  // Directly pass the addPresentation to the ModalComponent.
-  // The ModalComponent should then call this method with the new presentation's details.
+  /* Directly pass the addPresentation to the ModalComponent */
   const handleHide = () => setModalShow(false);
 
+  /* The ModalComponent should then call this method with the new presentation's details */
   const customButtonStyle = {
     borderColor: 'red',
     borderWidth: '3px',

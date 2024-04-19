@@ -22,7 +22,7 @@ const PresentationCard = ({ presentation, darkMode, onClick }) => {
     aspectRatio: '2 / 1',
   };
 
-  // Hover effect
+  /* Hover effect */
   const handleMouseOver = (e) => {
     e.currentTarget.style.transform = 'scale(1.05)';
   };
@@ -51,7 +51,6 @@ const PresentationCard = ({ presentation, darkMode, onClick }) => {
   };
 
   const handleClick = () => {
-    // console.log(`Presentation ${id} clicked!`);
     navigate(`/presentation/${id}`);
   };
 
