@@ -3,9 +3,15 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { fileToDataUrl } from '../hooks/helpers';
 
+/**
+ * ThumbnailUploadModal is a React component for uploading and updating thumbnail images.
+ * @param {object} props - Contains properties such as show, onHide, onUpdate, and darkMode.
+ * @returns A modal component that allows users to upload an image file.
+ */
 function ThumbnailUploadModal ({ show, onHide, onUpdate, darkMode }) {
   const [file, setFile] = useState(null);
 
+  /** Styles for dark mode appearance */
   const darkModeStyles = {
     color: '#E9ECEF',
     backgroundColor: '#212529',
@@ -15,6 +21,7 @@ function ThumbnailUploadModal ({ show, onHide, onUpdate, darkMode }) {
     buttonBorder: '#2980b9'
   };
 
+  /** Styles for light mode appearance */
   const lightModeStyles = {
     color: '#495057',
     backgroundColor: '#FFFFFF',
@@ -24,8 +31,13 @@ function ThumbnailUploadModal ({ show, onHide, onUpdate, darkMode }) {
     buttonBorder: '#2980b9'
   };
 
+  /** Conditional styling based on the darkMode prop */
   const modalStyle = darkMode ? darkModeStyles : lightModeStyles;
 
+  /**
+   * Handles the file input change event by converting the selected file to a data URL.
+   * @param {object} event - The event object containing the file input.
+   */
   const handleFileChange = async (event) => {
     try {
       const file = event.target.files[0];
@@ -36,6 +48,10 @@ function ThumbnailUploadModal ({ show, onHide, onUpdate, darkMode }) {
     }
   };
 
+  /**
+   * Updates the thumbnail image with the uploaded file data URL.
+   * This function is triggered when the Update Thumbnail button is clicked.
+   */
   const handleUpdate = () => {
     if (file) {
       onUpdate(file);
@@ -45,6 +61,7 @@ function ThumbnailUploadModal ({ show, onHide, onUpdate, darkMode }) {
     }
   };
 
+  /** Style for the input element */
   const inputStyle = {
     width: '100%',
     padding: '10px',
@@ -55,6 +72,7 @@ function ThumbnailUploadModal ({ show, onHide, onUpdate, darkMode }) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
   };
 
+  /** Style for the button element */
   const buttonStyle = {
     backgroundColor: modalStyle.buttonBackground,
     borderColor: modalStyle.buttonBorder,
