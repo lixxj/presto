@@ -40,6 +40,10 @@ function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation }) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
+ /**
+ * Code to parse video ID from a given Youtube video URL taken from
+ * https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
+ */
   const youtubeParser = (url) => {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     const match = url.match(regExp);
