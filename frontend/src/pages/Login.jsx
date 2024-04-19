@@ -9,25 +9,6 @@ function Login ({ token, setTokenFunction }) {
   const [password, setPassword] = React.useState('');
   const navigate = useNavigate();
 
-  if (token !== null) {
-    return <Navigate to="/dashboard" />
-  }
-
-  const login = async (event) => {
-    event.preventDefault(); // Prevent default form submission
-    try {
-      const response = await axios.post('http://localhost:5005/admin/auth/login', {
-        email,
-        password,
-      });
-      setTokenFunction(response.data.token);
-      navigate('/dashboard');
-    } catch (err) {
-      console.error('Error:', err);
-      alert(err.response?.data?.error || 'An unexpected error occurred');
-    }
-  }
-
   const borderStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -50,6 +31,28 @@ function Login ({ token, setTokenFunction }) {
       width: 90% !important; // Adjust width for small screens
     }
   }`;
+
+  if (token !== null) {
+    return <Navigate to="/dashboard" />
+  }
+
+  /**
+  * Sends an API request to the backend to login a user
+  */
+  const login = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5005/admin/auth/login', {
+        email,
+        password,
+      });
+      setTokenFunction(response.data.token);
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Error:', err);
+      alert(err.response?.data?.error || 'An unexpected error occurred');
+    }
+  }
 
   return (
     <div style={borderStyle}>

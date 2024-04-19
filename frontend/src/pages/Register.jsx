@@ -11,10 +11,42 @@ function Register ({ token, setTokenFunction }) {
   const [name, setName] = React.useState('');
   const navigate = useNavigate();
 
+  /**
+  * Responsive styling
+  */
+  const borderStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: '60%',
+    border: '1px solid lightGray',
+    borderRadius: '20px',
+    padding: '20px',
+    margin: 'auto',
+    minWidth: '350px',
+  }
+
+  const formStyle = {
+    width: '100%',
+  }
+
+  /**
+  * Responsive styling
+  */
+  const mobileStyle = `@media (max-width: 768px) {
+    div {
+      width: 90% !important; // Increase width on small screens
+    }
+  }`;
+
   if (token !== null) {
     return <Navigate to="/dashboard" />
   }
 
+  /**
+  * Sends an API request to the backend to register a user
+  */
   const register = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
@@ -36,31 +68,6 @@ function Register ({ token, setTokenFunction }) {
       }
     }
   }
-
-  // Responsive styling
-  const borderStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    width: '60%',
-    border: '1px solid lightGray',
-    borderRadius: '20px',
-    padding: '20px',
-    margin: 'auto',
-    minWidth: '350px',
-  }
-
-  const formStyle = {
-    width: '100%',
-  }
-
-  // Media query for mobile responsiveness
-  const mobileStyle = `@media (max-width: 768px) {
-    div {
-      width: 90% !important; // Increase width on small screens
-    }
-  }`;
 
   return (
     <div style={borderStyle}>

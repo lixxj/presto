@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuid here
 import NewPresentationButton from '../components/NewPresentationButton';
 import PresentationCard from '../components/PresentationCard';
 
-function Dashboard ({ token, setTokenFunction, darkMode }) {
+function Dashboard ({ token, darkMode }) {
   const [presentations, setPresentations] = useState([]);
 
   useEffect(() => {
@@ -25,6 +25,9 @@ function Dashboard ({ token, setTokenFunction, darkMode }) {
     }
   }, [token]);
 
+  /**
+  * Creates a new presentation
+  */
   const addPresentation = async (newPresentation) => {
     // Generate a unique ID for the new presentation
     const newPresentationWithId = { ...newPresentation, id: uuidv4() };
