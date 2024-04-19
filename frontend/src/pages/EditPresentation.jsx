@@ -274,7 +274,7 @@ function EditPresentation ({ token, darkMode }) {
               darkMode={darkMode}
             />
 
-            <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
+            <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} presentation={presentation} setPresentation={setPresentation} />
 
             <nav style={ navBarStyle }>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>

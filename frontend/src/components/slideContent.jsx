@@ -10,7 +10,7 @@ SyntaxHighlighter.registerLanguage('javascript', javascript);
 SyntaxHighlighter.registerLanguage('python', python);
 SyntaxHighlighter.registerLanguage('c', c);
 
-function SlideContent ({ slideNumber, content }) {
+function SlideContent ({ slideNumber, content, presentation, setPresentation }) {
   const [fontStyles, setFontStyles] = useState(content.map(() => 'Courier'));
   const [isVisible, setIsVisible] = useState(content.map(() => false));
 
@@ -45,6 +45,19 @@ function SlideContent ({ slideNumber, content }) {
     newVisibility[index] = !newVisibility[index];
     setIsVisible(newVisibility);
   };
+
+  const deleteItem = (event, index) => {
+    const newContent = [...content];
+    newContent.splice(index, 1);
+    const newPresentation = { ...presentation };
+
+    newPresentation.slides[slideNumber - 1].content.splice(index, 1)
+
+    setPresentation(newPresentation)
+
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
   const handleBackgroundChange = (color, forAll = false) => {
     if (forAll) {
@@ -119,6 +132,7 @@ function SlideContent ({ slideNumber, content }) {
                 }}
                 value={element.text} readOnly
                 onClick={() => toggleDropdown(index)}
+                onContextMenu={(event) => deleteItem(event, index)}
               />
             {isVisible[index] && (
               <select style={{
@@ -145,10 +159,11 @@ function SlideContent ({ slideNumber, content }) {
           <Draggable bounds="parent">
             <img key={index} style={{
               width: element.width,
-              height: element.height
+              height: element.height,
             }}
               alt={element.description}
-              src={element.url} />
+              src={element.url}
+            />
           </Draggable>
         );
       case 'video':
