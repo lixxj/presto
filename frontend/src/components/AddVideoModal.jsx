@@ -53,18 +53,15 @@ function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation }) {
   const addVideoToSlide = () => {
     if (!videoUrl || !videoWidth || !videoHeight) {
       alert('Please fill out all the fields');
-    } else if (videoWidth < 200 || videoHeight < 200) {
-      alert('Video dimensions are too small');
     } else {
       const newVideo = {
         type: 'video',
         url: 'https://www.youtube.com/embed/' + youtubeParser(videoUrl),
-        width: videoWidth + 'px',
-        height: videoHeight + 'px',
+        width: videoWidth + '%',
+        height: videoHeight + '%',
         autoPlay
       };
       presentation.slides[slideNumber].content.push(newVideo);
-      console.log(newVideo)
       onHide();
     }
   };
@@ -85,20 +82,20 @@ function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation }) {
           placeholder="Enter the URL of the video"
           type="text"
         />
-        <h6>Width of Video (px)</h6>
+        <h6>Width of Video (%)</h6>
         <input
           style={inputStyle}
           value={videoWidth}
           onChange={(e) => setVideoWidth(e.target.value)}
-          placeholder="Enter width in pixels (Min 200 Px)"
+          placeholder="Enter a number"
           type="number"
         />
-        <h6>Height of Video (px)</h6>
+        <h6>Height of Video (%)</h6>
         <input
           style={inputStyle}
           value={videoHeight}
           onChange={(e) => setVideoHeight(e.target.value)}
-          placeholder="Enter height in pixels (Min 200 Px)"
+          placeholder="Enter a number"
           type="number"
         />
         <h6>Auto-play Video</h6>

@@ -10,11 +10,11 @@ import AddVideoModal from '../components/AddVideoModal';
 import ThumbnailUploadModal from '../components/ThumbnailUploadModal';
 
 function EditPresentation ({ token, darkMode }) {
-  const { id } = useParams(); // Get the presentation ID from the URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [presentation, setPresentation] = useState(null);
   const [allPresentations, setAllPresentations] = useState(null);
-  const [presentationName, setPresentationName] = useState(''); // Set presentation name separately so it can be edited later
+  const [presentationName, setPresentationName] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showAddTextModal, setAddTextModal] = useState(false);
   const [presentationLength, setPresentationLength] = useState();
@@ -130,8 +130,10 @@ function EditPresentation ({ token, darkMode }) {
     fetchPresentations();
   }, [id, navigate, token]);
 
-  // Helper function to update database given an array
-  // of presentations
+  /**
+  * Helper function to update the database when given an array
+  * of presentations
+  */
   const updateDatabase = async (updatedPresentations) => {
     try {
       await axios.put('http://localhost:5005/store', {
@@ -152,6 +154,16 @@ function EditPresentation ({ token, darkMode }) {
     }
   }
 
+  /**
+  * Saves a presentation by calling the updateDatabase function
+  */
+  const savePresentation = () => {
+    updateDatabase(allPresentations);
+  }
+
+  /**
+  * Deletes a presentation
+  */
   const deletePresentation = async () => {
     const updatedPresentations = allPresentations.filter(pres => pres.id !== id);
 
@@ -160,11 +172,9 @@ function EditPresentation ({ token, darkMode }) {
     }
   };
 
-  const savePresentation = () => {
-    updateDatabase(allPresentations);
-  }
-
-  // Update later
+  /**
+  * Handles updating of the name of the presentation
+  */
   const updateName = async () => {
     if (presentationName.length < 1) {
       alert('Please enter a name');
@@ -184,6 +194,10 @@ function EditPresentation ({ token, darkMode }) {
     }
   }
 
+  /**
+  * Updates the thumbnail of the presentation that is displayed on the
+  * dashboard
+  */
   const updateThumbnail = async (newThumbnail) => {
     if (!newThumbnail) {
       alert('Please upload a thumbnail');
@@ -199,8 +213,8 @@ function EditPresentation ({ token, darkMode }) {
       const allPresentations = response.data.store?.presentations || [];
       const specificPresentation = allPresentations.find(pres => pres.id === id);
       if (specificPresentation) {
-        specificPresentation.thumbnail = newThumbnail; // Update the thumbnail in the found presentation
-        updateDatabase(allPresentations); // Save all presentations with the updated thumbnail
+        specificPresentation.thumbnail = newThumbnail;
+        updateDatabase(allPresentations);
       } else {
         alert('Presentation not found');
       }
@@ -208,30 +222,43 @@ function EditPresentation ({ token, darkMode }) {
       console.error('Error fetching presentations:', error);
     });
   }
-
+  /**
+  * Creates a new slide within the presentation
+  */
   const createNewSlide = () => {
     const specificPresentation = allPresentations.find(pres => pres.id === id);
     specificPresentation.slides.push({ content: [] });
-    setPresentationLength(presentationLength + 1); // Use to determine if prev and next slides button should show
+    // Use to determine if prev and next slides button should show
+    setPresentationLength(presentationLength + 1);
   }
 
+  /**
+  * Deletes a slide within the presentation
+  */
   const deleteSlide = () => {
     if (presentationLength > 1) {
       const specificPresentation = allPresentations.find(pres => pres.id === id);
       specificPresentation.slides.pop();
       prevSlide();
-      setPresentationLength(presentationLength - 1); // Use to determine if prev and next slides button should show
+      // Use to determine if prev and next slides button should show
+      setPresentationLength(presentationLength - 1);
     } else {
       alert('This presentation only has one slide. Please use the delete presentation button to delete this presentation instead');
     }
   }
 
+  /**
+  * Navigate to the next slide
+  */
   const nextSlide = () => {
     if (slideNumber < presentationLength) {
       setSlideNumber(slideNumber + 1);
     }
   }
 
+  /**
+  * Navigate to the previous slide
+  */
   const prevSlide = () => {
     if (slideNumber > 1) {
       setSlideNumber(slideNumber - 1);
@@ -274,7 +301,7 @@ function EditPresentation ({ token, darkMode }) {
               darkMode={darkMode}
             />
 
-            <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} />
+            <SlideContent slideNumber={slideNumber} content={presentation.slides[slideNumber - 1].content} presentation={presentation} setPresentation={setPresentation} />
 
             <nav style={ navBarStyle }>
               <button style={buttonStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => navigate('/dashboard')}>Back to Dashboard</button>

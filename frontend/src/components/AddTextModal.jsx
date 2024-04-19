@@ -2,6 +2,11 @@ import { React, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
+/**
+ * AddTextModal is a React component for adding text to a presentation slide.
+ * @param {object} props - Contains properties passed down to this component.
+ * @returns A modal component that allows users to input text and its properties.
+ */
 function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
   const [textAreaWidth, setTextAreaWidth] = useState('');
   const [textAreaHeight, setTextAreaHeight] = useState('');
@@ -9,18 +14,22 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
   const [fontSize, setFontSize] = useState('');
   const [color, setColor] = useState('');
 
+  /** Styles for dark mode appearance */
   const darkModeStyles = {
     color: '#E9ECEF',
     backgroundColor: '#212529',
   };
 
+  /** Styles for light mode appearance */
   const lightModeStyles = {
     color: '#495057',
     backgroundColor: '#FFFFFF',
   };
 
+  /** Conditional styling based on the darkMode prop */
   const modalStyle = darkMode ? darkModeStyles : lightModeStyles;
 
+  /** Input style that incorporates modal style and additional input-specific styling */
   const inputStyle = {
     ...modalStyle,
     width: '100%',
@@ -32,6 +41,7 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
   };
 
+  /** Button style that incorporates modal style and distinct button-specific styling */
   const buttonStyle = {
     ...modalStyle,
     backgroundColor: '#3498db',
@@ -41,8 +51,9 @@ function AddTextModal ({ show, onHide, darkMode, slideNumber, presentation }) {
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
-  // TODO: check if entered values are valid
-  // What is textAreaSize?
+  /**
+   * Function to add text to the current slide after validation of the input fields.
+   */
   const addTextToSlide = () => {
     if (!textAreaWidth || !textAreaHeight || !text || !fontSize || !color) {
       alert('Please fill out all the required fields');

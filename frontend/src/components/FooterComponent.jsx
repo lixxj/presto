@@ -7,7 +7,7 @@ const FooterComponent = ({ darkMode, toggleDarkMode }) => {
     width: '100%',
     padding: '10px 0',
     textAlign: 'center',
-    position: 'fixed', // Ensures footer stays at the bottom
+    position: 'fixed', /* Ensures footer stays at the bottom */
     bottom: 0,
     left: 0,
     height: '9vh',
