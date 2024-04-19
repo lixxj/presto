@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-
-// Assuming fileToDataUrl is imported or defined elsewhere in your project
 import { fileToDataUrl } from '../hooks/helpers';
 
+/**
+ * AddImageModal is a React component for uploading and adding images to a presentation.
+ * @param {object} props - Contains properties passed down to this component.
+ * @returns A modal component for user interaction.
+ */
 function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, updateDatabase }) {
   const [imageUrl, setImageUrl] = useState('');
   const [imageWidth, setImageWidth] = useState('');
@@ -12,18 +15,22 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
   const [previewUrl, setPreviewUrl] = useState('');
   const [imageDescription, setImageDescription] = useState('');
 
+  /* Styles for dark mode */
   const darkModeStyles = {
     color: '#E9ECEF',
     backgroundColor: '#212529',
   };
 
+  /* Styles for light mode */
   const lightModeStyles = {
     color: '#495057',
     backgroundColor: '#FFFFFF',
   };
 
+  /* Conditional styling based on dark mode or light mode */
   const modalStyle = darkMode ? darkModeStyles : lightModeStyles;
 
+  /* Common input styles with conditional color themes */
   const inputStyle = {
     ...modalStyle,
     width: '100%',
@@ -35,6 +42,7 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
   };
 
+  /* Button styling with a distinct color and shadow effect */
   const buttonStyle = {
     ...modalStyle,
     backgroundColor: '#3498db',
@@ -44,18 +52,20 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
+  /* Handles file selection and conversion to a data URL */
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       fileToDataUrl(file).then(dataUrl => {
         setPreviewUrl(dataUrl);
-        setImageUrl(dataUrl); // Store the data URL for further processing or addition to slides
+        setImageUrl(dataUrl);
       }).catch(error => {
         alert('Error processing file: ' + error.message);
       });
     }
   };
 
+  /* Adds the selected image to the current slide after validation checks */
   const addImageToSlide = () => {
     if (!imageUrl || !imageWidth || !imageHeight || !imageDescription) {
       alert('Please fill out all the fields');
@@ -67,11 +77,11 @@ function AddImageModal ({ show, onHide, darkMode, slideNumber, presentation, upd
         height: imageHeight + 'px',
         description: imageDescription
       });
-      // updateDatabase && updateDatabase(presentation); // Optionally update the database if function provided
-      onHide(); // Close the modal after adding
+      onHide();
     }
   };
 
+  /* Render the modal with form inputs and preview area */
   return (
     <Modal show={show} onHide={onHide} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton style={modalStyle}>
