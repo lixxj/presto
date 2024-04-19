@@ -139,16 +139,12 @@ function SlideContent ({ slideNumber, content }) {
         );
       case 'video':
         return (
-          <video key={index} style={{
+          <iframe key={index} style={{
             width: element.width,
             height: element.height
           }}
-            controls
-            autoPlay={true}
-            muted={true}>
-            <source src={element.url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+            src= {element.url + '?autoplay=' + element.autoPlay}>
+          </iframe>
         );
       default:
         return null;
