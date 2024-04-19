@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation, updateDatabase }) {
+function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation }) {
   const [videoUrl, setVideoUrl] = useState('');
   const [videoWidth, setVideoWidth] = useState('');
   const [videoHeight, setVideoHeight] = useState('');
@@ -40,20 +40,32 @@ function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation, upd
     boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
   };
 
+  /**
+ * Code to parse video ID from a given Youtube video URL taken from
+ * https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
+ */
+  const youtubeParser = (url) => {
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    const match = url.match(regExp);
+    return ((match && match[7].length === 11) ? match[7] : false);
+  }
+
   const addVideoToSlide = () => {
     if (!videoUrl || !videoWidth || !videoHeight) {
       alert('Please fill out all the fields');
+    } else if (videoWidth < 200 || videoHeight < 200) {
+      alert('Video dimensions are too small');
     } else {
       const newVideo = {
         type: 'video',
-        url: videoUrl,
+        url: 'https://www.youtube.com/embed/' + youtubeParser(videoUrl),
         width: videoWidth + 'px',
         height: videoHeight + 'px',
         autoPlay
       };
       presentation.slides[slideNumber].content.push(newVideo);
-      // updateDatabase(presentation);
-      onHide(); // Close the modal after adding
+      console.log(newVideo)
+      onHide();
     }
   };
 
@@ -78,7 +90,7 @@ function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation, upd
           style={inputStyle}
           value={videoWidth}
           onChange={(e) => setVideoWidth(e.target.value)}
-          placeholder="Enter width in pixels"
+          placeholder="Enter width in pixels (Min 200 Px)"
           type="number"
         />
         <h6>Height of Video (px)</h6>
@@ -86,7 +98,7 @@ function AddVideoModal ({ show, onHide, darkMode, slideNumber, presentation, upd
           style={inputStyle}
           value={videoHeight}
           onChange={(e) => setVideoHeight(e.target.value)}
-          placeholder="Enter height in pixels"
+          placeholder="Enter height in pixels (Min 200 Px)"
           type="number"
         />
         <h6>Auto-play Video</h6>
