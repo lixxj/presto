@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Draggable from 'react-draggable';
 
 function SlideContent ({ slideNumber, content }) {
   const [fontStyles, setFontStyles] = useState(content.map(() => 'Courier'));
@@ -97,6 +98,7 @@ function SlideContent ({ slideNumber, content }) {
       case 'text':
         return (
           <div key={index} style={{ position: 'relative', width: element.textAreaWidth }}>
+            <Draggable bounds="parent">
             <textarea
               style={{
                 ...textFieldStyle,
@@ -109,6 +111,7 @@ function SlideContent ({ slideNumber, content }) {
               value={element.text} readOnly
               onClick={() => toggleDropdown(index)}
             />
+            </Draggable>
             {isVisible[index] && (
               <select style={{
                 position: 'absolute',
@@ -130,21 +133,25 @@ function SlideContent ({ slideNumber, content }) {
         );
       case 'image':
         return (
+          <Draggable bounds="parent">
           <img key={index} style={{
             width: element.width,
             height: element.height
           }}
             alt={element.description}
             src={element.url} />
+          </Draggable>
         );
       case 'video':
         return (
+          <Draggable bounds="parent">
           <iframe key={index} style={{
             width: element.width,
             height: element.height
           }}
             src= {element.url + '?autoplay=' + element.autoPlay}>
           </iframe>
+          </Draggable>
         );
       default:
         return null;
